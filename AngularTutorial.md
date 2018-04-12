@@ -98,8 +98,111 @@ A Component can be used in different ways, depending on the declaration of the s
 #### Services
 A Service is a class that contains the business logic of the Application
 
+## CSS
+### Class Binding
+Single class:
 
-## Connecting the view to data
+    <h1 class="myHeadline">Headline</h1>
+
+Multiple classes:
+
+    <h1 class="myHeadline frontPage anotherClass">Headline</h1>
+
+### Fluent Class Binding
+
+
+You can assign the class name to a property and bind the property to an html element using this syntax:
+
+    ----- component.ts ----------------------------------
+    public myClass = "myHeadline";
+
+    ----- component.html --------------------------------
+    <h1 [class]="myClass">Headline</h1>
+
+    ----- component.css ---------------------------------
+    .myHeadline {
+    	color: red;
+	}
+    
+
+Class Binding turns regular class assignments into dummy assignments, so only the bound classes will apply when using mixed syntax
+
+    ----- component.html --------------------------------
+    <h1 class="someClass" [class]="myClass">Headline</h1>
+
+In the example above, only myClass will apply
+
+### Conditional Fluent Class Binding
+
+####Single class
+
+There is an alternative syntax that binds one class based on a truthy or falsy value. If true, the CSS is applied.
+
+    ----- component.ts ----------------------------------
+	public useCSS = true;
+
+    ----- component.html --------------------------------
+    <h1 [class.myHeadline]="useCSS">Headline</h1>
+
+    ----- component.css ---------------------------------
+    .myHeadline {
+    	color: blue;
+    }
+
+#### Multiple classes = ngClass Directive
+
+To conditionally apply multiple classes, use the ngClass Directive. Assign the booleans in the typescript file to the class declarations.
+
+    ----- component.ts ----------------------------------
+	public hasError = false;
+	public isSpecial = true;
+
+    public messageClasses = {
+		"text-success": !this.hasError,
+		"text-danger": this.hasError,
+		"text-special": this.isSpecial,
+	}		
+
+    ----- component.html --------------------------------
+    <h2 [ngClass]="messageClasses">Some Text</h2>
+
+    ----- component.css ---------------------------------
+    .text-success {
+    	color: green;
+    }
+    .text-danger {
+    	color: red;
+    }
+    .text-special {
+    	font-style: italic;
+    }
+
+		
+### Style Binding
+Inline binding to a single style parameter works as follows:
+
+    <h2 [style.color]="'orange'">Text</h2>
+
+### Conditional Style Binding
+Conditional Style Binding looks like this: if *hasError* is true, then Text is red. Else it is green.
+
+    ----- component.ts ----------------------------------
+    public hasError = false;
+    
+    ----- component.html --------------------------------
+    <h2 [style.color]="hasError ? 'red' : 'green'">Text</h2>
+
+### Fluent Style Binding
+If two styles are not enough for the desired application, it is possible to bind an element to a string value that can be changed at runtime.
+
+    ----- component.ts ----------------------------------
+    public highlightColor = "orange";
+    
+    ----- component.html --------------------------------
+    <h2 [style.color]="highlightColor">Text</h2>
+
+
+## Data Flow inside a Component: Class => View
 
 ###Interpolation - works only with string values
 
@@ -162,78 +265,162 @@ using a boolean Variable like to make the view respond when the Variable value c
     ----- component.html (alternative syntax) ----------------------
     <input bind-disabled="isDisabled" type="text" value="Vishwas">
 
-## CSS
 
-### Class Binding
+## Data Flow inside a Component: View => Class
 
-Instead of using static class declarations like `<h1 class="myHeadline"></h1>`
-
-You can assign the class name to a property and bind the property to an html element using this syntax:
+To interact with the typescript class from the view, Angular offers Event Binding. Simply add the type of Event like "click" to the Element and assign the name of the function that should be called to it.
 
     ----- component.ts ----------------------------------
-    public myClass = "myHeadline";
-
+	private onClick() {
+	  console.log("onClick");
+	}
+	    
     ----- component.html --------------------------------
-    <h1 [class]="myClass"></h1>
+    <button (click)="onClick()" type="button">Click Me</button>
 
-    ----- component.css ---------------------------------
-    .myHeadline {
-    	// ...
-    }
+
+Angular can also pass information about the event to the function
+
+    ----- component.ts ----------------------------------
+	private onClick(event) {
+	  console.log(event);
+	}
+	    
+    ----- component.html --------------------------------
+    <button (click)="onClick($event)" type="button">Click Me</button>
+
+Angular can also pass user inputs to the class
+
+    ----- component.ts ----------------------------------
+	logMessage(message) {
+	  console.log(message);
+	}
+	    
+    ----- component.html --------------------------------
+	<input #myInput type="text">
+    <button (click)="logMessage(myInput.value)">Click Me</button>
+
+Angular can also execute code manually right from the HTML
+
+    ----- component.ts ----------------------------------
+	public sometext = "";
+
+	private onClick() {
+	  console.log(sometext);
+	}
+	    
+    ----- component.html --------------------------------
+    <button (click)="sometext='this text was changed inline directly from HTML'" type="button">Click Me</button>
+	<button (click)="onClick()" type="button">And me afterwards</button>
+
+## Two Way Data Binding inside a Component: View <=> Class
+When working with input elements, it is essential that the model (in the class) and the user input (in the view) are always in sync. For this purpose, Angular provides the ngModel directive. 
+
+The basic syntax is a Mix between [Propery Binding] and (Event Binding):
+
+    ----- component.ts ----------------------------------
+	public name = "";
+	    
+    ----- component.html --------------------------------
+	<input [(ngModel)]="name" type="text>
+	{{name}}
+
+To use the ngModel directive, we need to import the FormsModule from '@angular/forms'
+
+    ----- app.module.ts ----------------------------------
     
+	...
 
-Class Binding turns regular class assignments into dummy assignments, so only the bound classes will apply when using mixed syntax
+    import { FormsModule } from '@angular/forms';
+    
+	...
+    
+    
+    @NgModule({
+      declarations: [
+			...
+      ],
+      imports: [
+		...,
+    	FormsModule
+      ],
+      providers: [],
+      bootstrap: [AppComponent]
+    })
+    export class AppModule { }
 
-    ----- component.html --------------------------------
-    <h1 class="someClass" [class]="myClass"></h1>
 
-In the example above, only myClass will apply
+## Data Flow between Components:	Child => Parent
+To send data from a child component to its parent component, Angular provides an Output mechanism with the EventEmitter class. The syntax works like this:
 
-### Conditional Class Binding
+Declare an instance of the EventEmitter class and put the Output decorator on it. Be sure to import them both. Have the emitter emit a value in the click event of a button for example.
 
-####Single class
+    ----- child.component.ts ----------------------------------
+    import { ... , EventEmitter, Output } from '@angular/core';
 
-There is an alternative syntax that binds one class based on a truthy or falsy value. If true, the CSS is applied.
+	...
 
-    ----- component.ts ----------------------------------
-    public myClass = "myHeadline";
-	public useCSS = true;
+    @Output() public outputEventEmitter = new EventEmitter();
+	
+	...
+    
+	private onButtonClick() {
+	  console.log("Button Clicked");
+	  this.outputEventEmitter.emit('Value');
+	}
+	
+    ----- child.component.html --------------------------------
+	<button (click)="onButtonClick()" type="button">Click Me!</button>
 
-    ----- component.html --------------------------------
-    <h1 [class.myClass]="useCSS"></h1>
+Then, in the parent component, declare a variable to hold the value sent by the child component. Mark that variable with the input decorator (which needs to be imported aswell).
 
-    ----- component.css ---------------------------------
-    .myHeadline {
-    	// ...
-    }
+    ----- parent.component.ts ----------------------------------
+    import { ... , Input } from '@angular/core';
 
-#### Multiple classes = ngClass Directive
+	...
 
-To conditionally apply multiple classes, use the ngClass Directive. Assign the booleans in the typescript file to the class declarations.
+    @Input() childData = "";
+	
+    ----- parent.component.html --------------------------------
+    <app-child (outputEventEmitter)="childData=$event"></app-child>
 
-    ----- component.ts ----------------------------------
-    public messageClasses = {
-		"text-success": !this.hasError,
-		"text-danger": this.hasError,
-		"text-special": this.isSpecial,
-	}		
+## Data Flow between Components:	Parent => Child
 
-	public hasError = false;
-	public isSpecial = true;
+In the parent component, declare a variable to hold the value sent by the child component. Mark that variable with the input decorator (which needs to be imported aswell).
 
-    ----- component.html --------------------------------
-    <h1 [ngClass]="messageClasses"></h1>
+    ----- parent.component.ts ----------------------------------
+    import { ... , Input } from '@angular/core';
 
-    ----- component.css ---------------------------------
-    .text-success {
-    	// ...
-    }
-    .text-danger {
-    	// ...
-    }
-    .text-special {
-    	// ...
-    }
+	...
+
+    @Input() childData = "";
+	
+    ----- child.component.html --------------------------------
+    <app-child (outputEventEmitter)="childData=$event"></app-child>
+
+## Control the UI from code => Structural Directives
+
+###ngIf	*(If Statement)*
+
+
+
+###ngFor *(Foreach Statement)*
+
+
+
+###ngSwitch *(Switch Case Statement)*
+
+
+
+## Angular Specific HTML Elements
+
+###ng-content	*(Allow other elements inside this element)*
+
+ngcontent + ngif
+
+
+## Object Orientation
+TypeScript allows the creation of custom classes (of course), these are the steps necessary to create a custom class and 
 
 ## Parse JSON Data
 
@@ -307,8 +494,6 @@ The expression used here is evaluated as follows:
 *- if the json object has a property called "name" then assign its value to this.name*
 
 *- if the json object does not have a property called "name" then assign "No Name Specified" to this.name*
-		
-## 08 Style Binding
 
 
 
