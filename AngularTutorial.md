@@ -1,8 +1,26 @@
-# Codevolution Angular 5 Tutorial
+# Angular 5 Tutorial
 
-[Youtube Link](https://www.youtube.com/watch?v=0eWrpsCLMJQ&list=PLC3y8-rFHvwhBRAgFinJR8KHIrCdTkZcZ)
+I use this document as a reference for Angular development. All code examples are copy & paste-able
 
-[Github Link](https://www.youtube.com/redirect?q=https%3A%2F%2Fgithub.com%2Fgopinav&redir_token=4qOBqon9qk1YpzwfftzVX-bbTz18MTUyMzA4NDk2OUAxNTIyOTk4NTY5&event=video_description&v=0eWrpsCLMJQ)
+[Codevolution Angular 5 Tutorial - Youtube Link](https://www.youtube.com/watch?v=0eWrpsCLMJQ&list=PLC3y8-rFHvwhBRAgFinJR8KHIrCdTkZcZ)
+
+[Codevolution Angular 5 Tutorial - Github Link](https://www.youtube.com/redirect?q=https%3A%2F%2Fgithub.com%2Fgopinav&redir_token=4qOBqon9qk1YpzwfftzVX-bbTz18MTUyMzA4NDk2OUAxNTIyOTk4NTY5&event=video_description&v=0eWrpsCLMJQ)
+
+## Get the Prerequisites
+
+### Node Package Manager (npm)
+
+##### Install npm from this link:
+
+https://www.npmjs.com/get-npm
+
+### Angular
+
+##### Install Angular from npm using the commands from this link:
+
+https://angular.io/guide/quickstart
+
+This link also leads to the official documentation of Angular
 
 ## Angular CLI Commands
 
@@ -113,13 +131,16 @@ Multiple classes:
 
 You can assign the class name to a property and bind the property to an html element using this syntax:
 
-    ----- component.ts ----------------------------------
+*component.ts*
+
     public myClass = "myHeadline";
 
-    ----- component.html --------------------------------
+*component.html*
+
     <h1 [class]="myClass">Headline</h1>
 
-    ----- component.css ---------------------------------
+*component.css*
+
     .myHeadline {
     	color: red;
 	}
@@ -127,7 +148,8 @@ You can assign the class name to a property and bind the property to an html ele
 
 Class Binding turns regular class assignments into dummy assignments, so only the bound classes will apply when using mixed syntax
 
-    ----- component.html --------------------------------
+*component.html*
+
     <h1 class="someClass" [class]="myClass">Headline</h1>
 
 In the example above, only myClass will apply
@@ -138,13 +160,16 @@ In the example above, only myClass will apply
 
 There is an alternative syntax that binds one class based on a truthy or falsy value. If true, the CSS is applied.
 
-    ----- component.ts ----------------------------------
+*component.ts*
+
 	public useCSS = true;
 
-    ----- component.html --------------------------------
+*component.html*
+
     <h1 [class.myHeadline]="useCSS">Headline</h1>
 
-    ----- component.css ---------------------------------
+*component.css*
+
     .myHeadline {
     	color: blue;
     }
@@ -153,7 +178,8 @@ There is an alternative syntax that binds one class based on a truthy or falsy v
 
 To conditionally apply multiple classes, use the ngClass Directive. Assign the booleans in the typescript file to the class declarations.
 
-    ----- component.ts ----------------------------------
+*component.ts*
+
 	public hasError = false;
 	public isSpecial = true;
 
@@ -163,10 +189,12 @@ To conditionally apply multiple classes, use the ngClass Directive. Assign the b
 		"text-special": this.isSpecial,
 	}		
 
-    ----- component.html --------------------------------
+*component.html*
+
     <h2 [ngClass]="messageClasses">Some Text</h2>
 
-    ----- component.css ---------------------------------
+*component.css*
+
     .text-success {
     	color: green;
     }
@@ -186,19 +214,23 @@ Inline binding to a single style parameter works as follows:
 ### Conditional Style Binding
 Conditional Style Binding looks like this: if *hasError* is true, then Text is red. Else it is green.
 
-    ----- component.ts ----------------------------------
+*component.ts*
+
     public hasError = false;
     
-    ----- component.html --------------------------------
+*component.html*
+
     <h2 [style.color]="hasError ? 'red' : 'green'">Text</h2>
 
 ### Fluent Style Binding
 If two styles are not enough for the desired application, it is possible to bind an element to a string value that can be changed at runtime.
 
-    ----- component.ts ----------------------------------
+*component.ts*
+
     public highlightColor = "orange";
     
-    ----- component.html --------------------------------
+*component.html*
+
     <h2 [style.color]="highlightColor">Text</h2>
 
 
@@ -226,9 +258,12 @@ Can *NOT* access global javascript variables
     {{window.location.href}}
 Use a variable in the component.ts for that:
 
-    ----- component.ts ---------------------------------------------
+*component.ts*
+
     public siteUrl = window.location.href
-    ----- component.html -------------------------------------------
+
+*component.html*
+
     {{siteUrl}}
 
 ### Property Binding - can also work with boolean values
@@ -242,27 +277,33 @@ Properties - Current Values defined by the DOM, read by using	`(.value)`
 *Property values can change - they represent the current value.*
 
 
-    ----- component.ts ---------------------------------------------
+*component.ts*
+
     public myId = "testId";
-    ----- component.html -------------------------------------------
+
+*component.html*
+
     <input [id]="myId" type="text" value="Vishwas">
 
 
 binding a boolean Property like
 
-    ----- component.html -------------------------------------------
+*component.html*
+
     <input [disabled]="true" type="text" value="Vishwas">
 
-using a boolean Variable like to make the view respond when the Variable value changes
+using a boolean Variable to make the view respond when the Variable value changes
 
+*component.ts*
 
-    ----- component.ts ---------------------------------------------
     public isDisabled : boolean = true;
 
-    ----- component.html -------------------------------------------
+*component.html*
+
     <input [disabled]="isDisabled" type="text" value="Vishwas">
 
-    ----- component.html (alternative syntax) ----------------------
+*component.html (alternative syntax)*
+
     <input bind-disabled="isDisabled" type="text" value="Vishwas">
 
 
@@ -270,46 +311,54 @@ using a boolean Variable like to make the view respond when the Variable value c
 
 To interact with the typescript class from the view, Angular offers Event Binding. Simply add the type of Event like "click" to the Element and assign the name of the function that should be called to it.
 
-    ----- component.ts ----------------------------------
+*component.ts*
+
 	private onClick() {
 	  console.log("onClick");
 	}
 	    
-    ----- component.html --------------------------------
+*component.html*
+
     <button (click)="onClick()" type="button">Click Me</button>
 
 
 Angular can also pass information about the event to the function
 
-    ----- component.ts ----------------------------------
+*component.ts*
+
 	private onClick(event) {
 	  console.log(event);
 	}
 	    
-    ----- component.html --------------------------------
+*component.html*
+
     <button (click)="onClick($event)" type="button">Click Me</button>
 
 Angular can also pass user inputs to the class
 
-    ----- component.ts ----------------------------------
+*component.ts*
+
 	logMessage(message) {
 	  console.log(message);
 	}
 	    
-    ----- component.html --------------------------------
+*component.html*
+
 	<input #myInput type="text">
     <button (click)="logMessage(myInput.value)">Click Me</button>
 
 Angular can also execute code manually right from the HTML
 
-    ----- component.ts ----------------------------------
+*component.ts*
+
 	public sometext = "";
 
 	private onClick() {
 	  console.log(sometext);
 	}
 	    
-    ----- component.html --------------------------------
+*component.html*
+
     <button (click)="sometext='this text was changed inline directly from HTML'" type="button">Click Me</button>
 	<button (click)="onClick()" type="button">And me afterwards</button>
 
@@ -318,16 +367,18 @@ When working with input elements, it is essential that the model (in the class) 
 
 The basic syntax is a Mix between [Propery Binding] and (Event Binding):
 
-    ----- component.ts ----------------------------------
+*component.ts*
+
 	public name = "";
 	    
-    ----- component.html --------------------------------
+*component.html*
+
 	<input [(ngModel)]="name" type="text>
 	{{name}}
 
 To use the ngModel directive, we need to import the FormsModule from '@angular/forms'
 
-    ----- app.module.ts ----------------------------------
+ *app.module.ts*
     
 	...
 
@@ -355,7 +406,8 @@ To send data from a child component to its parent component, Angular provides an
 
 Declare an instance of the EventEmitter class and put the Output decorator on it. Be sure to import them both. Have the emitter emit a value in the click event of a button for example.
 
-    ----- child.component.ts ----------------------------------
+*child.component.ts*
+
     import { ... , EventEmitter, Output } from '@angular/core';
 
 	...
@@ -369,36 +421,41 @@ Declare an instance of the EventEmitter class and put the Output decorator on it
 	  this.outputEventEmitter.emit('Value');
 	}
 	
-    ----- child.component.html --------------------------------
+*child.component.html*
+
 	<button (click)="onButtonClick()" type="button">Click Me!</button>
 
 Then, in the parent component, declare a variable to hold the value sent by the child component. Mark that variable with the input decorator (which needs to be imported aswell).
 
-    ----- parent.component.ts ----------------------------------
+*parent.component.ts*
+
     import { ... , Input } from '@angular/core';
 
 	...
 
     @Input() childData = "";
 	
-    ----- parent.component.html --------------------------------
+*parent.component.html*
+
     <app-child (outputEventEmitter)="childData=$event"></app-child>
 
 ## Data Flow between Components:	Parent => Child
 
 In the parent component, declare a variable to hold the value sent by the child component. Mark that variable with the input decorator (which needs to be imported aswell).
 
-    ----- parent.component.ts ----------------------------------
+ *parent.component.ts*
+
     import { ... , Input } from '@angular/core';
 
 	...
 
     @Input() childData = "";
 	
-    ----- child.component.html --------------------------------
+*child.component.html*
+
     <app-child (outputEventEmitter)="childData=$event"></app-child>
 
-## Control the UI from code => Structural Directives
+## Control the UI from code => Structural Directives (TBD)
 
 ###ngIf	*(If Statement)*
 
@@ -418,9 +475,123 @@ In the parent component, declare a variable to hold the value sent by the child 
 
 ngcontent + ngif
 
+## Pipes
 
-## Object Orientation
-TypeScript allows the creation of custom classes (of course), these are the steps necessary to create a custom class and 
+Pipes allow to transform the data before showing it in the view. The data is *only* transformed for the view. The values of the properties in the class do *not* change
+
+### String Pipes
+
+*component.ts*
+
+    name = "StringPipeTest";
+	title = "this is the title";
+	slice = "0123456789";
+	person = {
+		"firstName": "John",
+		"lastName": "Doe"
+	}
+
+*component.html*
+
+    <h2>{{ name | lowercase }}</h2>		// display the string in lowercase
+	<h2>{{ name | uppercase }}</h2>		// display the string in uppercase
+	<h2>{{ title | titlecase }}</h2>	// display the string with first letter of every word capitalized
+	<h2>{{ slice | slice:3 }}</h2>		// display part of the string, starting with (zero-based) index 3
+	<h2>{{ slice | slice:3:5 }}</h2>	// display part of the string, starting with (zero-based) index 3 up to index 4
+	<h2>{{ person | json }}</h2>		// display the string in lowercase
+	
+### Number Pipes
+
+*component.html*
+
+    <h2>{{ 5.678 | number:'1.2-3' }}</h2>			//  '1.2-3' = shows 5.678
+													//  minimum number of digits = 1
+													//  decimal digits minimum 2, maximum 3
+    <h2>{{ 5.678 | number:'2.4-5' }}</h2>			//	shows 05.6780
+    <h2>{{ 5.678 | number:'3.1-2' }}</h2>			//	shows 005.68
+
+	<h2>{{ 0.25 | percent }}</h2>					//  turns a decimal into its percentage => shows 25%
+
+	<h2>{{ 0.25 | currency }}</h2>					//  no currency code: default shows $0.25 (US Dollars)
+	<h2>{{ 0.25 | currency: 'EUR' }}</h2>			//  currency code 'EUR': shows €0.25 (Euro)
+													//  check https://en.wikipedia.org/wiki/ISO_4217 for more currency codes
+	<h2>{{ 0.25 | currency: 'EUR' : code }}</h2>	//  shows the code instead of the currency sign: shows EUR0.25
+
+### Date & Time Pipes
+
+*component.ts*
+
+    date = new Date();
+
+*component.html*
+
+	<h2>{{date}}</h2>
+	<h2>{{date | date:'short'}}</h2>
+	<h2>{{date | date:'shortDate'}}</h2>
+	<h2>{{date | date:'shortTime'}}</h2>
+	<h2>{{date | date:'medium'}}</h2>
+	<h2>{{date | date:'mediumDate'}}</h2>
+	<h2>{{date | date:'mediumTime'}}</h2>
+	<h2>{{date | date:'long'}}</h2>
+	<h2>{{date | date:'longDate'}}</h2>
+	<h2>{{date | date:'longTime'}}</h2>
+
+## Services and Dependency Injection
+
+The TypeScript codebehind files in Angular are supposed to control the view *only*.To implement application logic and share data across components, Angular provides Services which can be injected into the classes with the built-in Dependency Injection.
+
+There are a few steps to take:
+
+####Define the Service
+- Use Angular CLI to create a new service
+- Add the logic to the service. In this example, the service will only be used to return a static array of customer objects
+
+*customer.service.ts*
+
+    getCustomers(){
+	    return [
+		    {"id": 1, "firstname": "Max", "lastname": "Mustermann", "company": "Muster AG"},
+		    {"id": 2, "firstname": "Erika", "lastname": "Mustermann", "company": "Muster AG"},
+		    {"id": 3, "firstname": "Hans", "lastname": "Mustermann", "company": "Arbeitslos"},
+		    {"id": 4, "firstname": "Tobias", "lastname": "Mustermann", "company": "Muster Holding GmbH"}
+	    ]
+    }
+
+
+####Register the Service with the Injector
+The place where the Service is registered for Dependency Injection matters, because Angular uses a hierarchical DI system. The Components are organized in a tree structure, and registering a Service in a Component (or Module) means that it will only be available in its child Components. So the best solution is to register the service is the AppModule, which is the root of every Angular App.
+
+So Import the Service and add it to the 'providers' Array
+
+*app.module.ts*
+
+	import { CustomerService } from './services/customer.service';
+
+
+	@NgModule({
+	  declarations: [
+		...
+	  ],
+	  imports: [
+	    BrowserModule
+	  ],
+	  providers: [CustomerService],
+	  bootstrap: [AppComponent]
+	})
+
+####Declare the Service as a Dependency in the classes where it is needed
+Now add the Dependency in the Components that need the Service using Costructor Injection
+
+*customers.component.ts*
+
+	import { CustomerService } from '../services/customer.service';
+
+	...
+
+	constructor(private _customerService: CustomerService) { 
+	
+	}
+
 
 ## Parse JSON Data
 
@@ -430,7 +601,7 @@ There are several ways to parse JSON Objects into POCOs
 
 See YouTube for explanations
 
-###"TryParse Method"
+###"Try Parse Method"
 
 This method allows to parse an incoming object for the desired parameters, assign the values to the POCO if the parameters are found and assign default values to the POCO if the parameters are not found. Can be used in child classes aswell. 
 
@@ -496,35 +667,3 @@ The expression used here is evaluated as follows:
 *- if the json object does not have a property called "name" then assign "No Name Specified" to this.name*
 
 
-
-## 09 Event Binding
-
-
-
-## 10 Template Reference Variables
-
-
-
-## 11 Two Way Binding
-
-
-
-## 12 ngIf Directive
-
-
-
-## 13 ngSwitch Directive
-
-
-
-## 14 ngFor Directive
-
-
-
-## 15 Component Interaction
-
-
-
-
-
- 
