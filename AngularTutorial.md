@@ -493,28 +493,56 @@ Pipes allow to transform the data before showing it in the view. The data is *on
 
 *component.html*
 
-    <h2>{{ name | lowercase }}</h2>		// display the string in lowercase
-	<h2>{{ name | uppercase }}</h2>		// display the string in uppercase
-	<h2>{{ title | titlecase }}</h2>	// display the string with first letter of every word capitalized
-	<h2>{{ slice | slice:3 }}</h2>		// display part of the string, starting with (zero-based) index 3
-	<h2>{{ slice | slice:3:5 }}</h2>	// display part of the string, starting with (zero-based) index 3 up to index 4
-	<h2>{{ person | json }}</h2>		// display the string in lowercase
+display the string in all lowercase or all uppercase
+
+    <h2>{{ name | lowercase }}</h2>
+	<h2>{{ name | uppercase }}</h2>
+
+display the string with first letter of every word capitalized
+
+	<h2>{{ title | titlecase }}</h2>
+
+display part of the string, starting with (zero-based) index 3
+
+	<h2>{{ slice | slice:3 }}</h2>
+
+display part of the string, starting with (zero-based) index 3 up to index 4
+
+	<h2>{{ slice | slice:3:5 }}</h2>
+
+display the string in lowercase
+
+	<h2>{{ person | json }}</h2>
 	
 ### Number Pipes
 
 *component.html*
 
-    <h2>{{ 5.678 | number:'1.2-3' }}</h2>			//  '1.2-3' = shows 5.678
-													//  minimum number of digits = 1
-													//  decimal digits minimum 2, maximum 3
-    <h2>{{ 5.678 | number:'2.4-5' }}</h2>			//	shows 05.6780
-    <h2>{{ 5.678 | number:'3.1-2' }}</h2>			//	shows 005.68
+number pipe specifies the number of digits and decimal digits: 
+'1.2-3' = shows 5.678 - minimum number of digits = 1 - decimal digits minimum 2, maximum 3
 
-	<h2>{{ 0.25 | percent }}</h2>					//  turns a decimal into its percentage => shows 25%
+    <h2>{{ 5.678 | number:'1.2-3' }}</h2>
 
-	<h2>{{ 0.25 | currency }}</h2>					//  no currency code: default shows $0.25 (US Dollars)
-	<h2>{{ 0.25 | currency: 'EUR' }}</h2>			//  currency code 'EUR': shows €0.25 (Euro)
-													//  check https://en.wikipedia.org/wiki/ISO_4217 for more currency codes
+shows 05.6780
+
+    <h2>{{ 5.678 | number:'2.4-5' }}</h2>
+
+shows 005.68
+
+    <h2>{{ 5.678 | number:'3.1-2' }}</h2>
+
+turns a decimal into its percentage => shows 25%
+
+	<h2>{{ 0.25 | percent }}</h2>
+
+no currency code: default shows $0.25 (US Dollars)
+
+	<h2>{{ 0.25 | currency }}</h2>
+
+currency code 'EUR': shows €0.25 (Euro) check the [ISO Currency Code List](https://en.wikipedia.org/wiki/ISO_4217) for more currency codes
+ 
+	<h2>{{ 0.25 | currency: 'EUR' }}</h2>
+													//  
 	<h2>{{ 0.25 | currency: 'EUR' : code }}</h2>	//  shows the code instead of the currency sign: shows EUR0.25
 
 ### Date & Time Pipes
@@ -569,18 +597,14 @@ So Import the Service and add it to the 'providers' Array
 
 
 	@NgModule({
-	  declarations: [
-		...
-	  ],
-	  imports: [
-	    BrowserModule
-	  ],
+	  declarations: [...],
+	  imports: [...],
 	  providers: [CustomerService],
-	  bootstrap: [AppComponent]
+	  bootstrap: [...]
 	})
 
 ####Declare the Service as a Dependency in the classes where it is needed
-Now add the Dependency in the Components that need the Service using Costructor Injection
+Now add the Dependency in the Components that need the Service using Constructor Injection. Be sure to declare the Variable with a leading underscore (like  _*customerService* ), as this is a naming convention for variables injected with Dependency Injection. The Service can now be used to get the Customer Array. Again, this is a basic example with hardcoded data, in reality the Service would probably make an HTTP call to get some data or read the data from a database.
 
 *customers.component.ts*
 
@@ -588,22 +612,69 @@ Now add the Dependency in the Components that need the Service using Costructor 
 
 	...
 
-	constructor(private _customerService: CustomerService) { 
-	
+	private customers : Customer[] = [];
+
+	constructor(private _customerService: CustomerService) { }
+
+	ngOnInit() {
+		this.customers = this._customerService.getCustomers();
 	}
 
 
-## Parse JSON Data
+## HTTP Requests: Using Data fetched with HTTP requests
 
-There are several ways to parse JSON Objects into POCOs
+There are several ways to parse received Objects into [POCOs](https://en.wikipedia.org/wiki/Plain_old_CLR_object)
 
-###Observable Method
+###Standard Method: Observables
 
-See YouTube for explanations
+Angulars standard method for processing HTTP Responses is turning them into Observables (or Arrays of Observables). An Observable is a sequence of items that arrive asynchronously over time (when the HTTP call returns and HTTP response).
+
+#####Send HTTP Request
+To send an HTTP Request, the Service needs to use the HttpClientModule. To use it, the Module needs to be added to the imports Array in add.module.ts. This makes it available to the service for Dependency Injection. It does not need to be added to the providers Array like e.g. a Service, the HttpClientModule does that by itself.
+
+*app.module.ts*
+
+	import { HttpClientModule } from '@angular/common/http';
+
+	@NgModule({
+	  declarations: [...],
+	  imports: [HttpClientModule],
+	  providers: [...],
+	  bootstrap: [...]
+	})
+
+Inject the HttpClient into the Constructor of the Service. Depending on the Backend used, it may be desirable to configure the Service to work with JSON data as done in the Constructor here.
+
+*customer.service.ts*
+
+	import { HttpClient } from '@angular/common/http';
+
+	constructor(private _http: HttpClient) {
+		this.headers = new Headers();
+		this.headers.append('Content-Type', 'application/json');
+		this.headers.append('Accept', 'application/json');
+	}
+
+
+
+#####Get Observable from HTTP Response and cast it into an Array of Objects
+
+
+
+#####Subscribe to the Observable from the Components that need the Data
+
+
+
+#####Assign the Array to a local Variable
+
+
+
+
 
 ###"Try Parse Method"
 
 This method allows to parse an incoming object for the desired parameters, assign the values to the POCO if the parameters are found and assign default values to the POCO if the parameters are not found. Can be used in child classes aswell. 
+
 
     export class ParentClass
     {
