@@ -2,25 +2,21 @@
 
 I use this document as a reference for Angular development. All code examples are copy & paste-able
 
-[Codevolution Angular 5 Tutorial - Youtube Link](https://www.youtube.com/watch?v=0eWrpsCLMJQ&list=PLC3y8-rFHvwhBRAgFinJR8KHIrCdTkZcZ)
+[Codevolution Angular 5 Tutorial - Youtube](https://www.youtube.com/watch?v=0eWrpsCLMJQ&list=PLC3y8-rFHvwhBRAgFinJR8KHIrCdTkZcZ)
 
-[Codevolution Angular 5 Tutorial - Github Link](https://www.youtube.com/redirect?q=https%3A%2F%2Fgithub.com%2Fgopinav&redir_token=4qOBqon9qk1YpzwfftzVX-bbTz18MTUyMzA4NDk2OUAxNTIyOTk4NTY5&event=video_description&v=0eWrpsCLMJQ)
+[Codevolution Angular 5 Tutorial - Github](https://www.youtube.com/redirect?q=https%3A%2F%2Fgithub.com%2Fgopinav&redir_token=4qOBqon9qk1YpzwfftzVX-bbTz18MTUyMzA4NDk2OUAxNTIyOTk4NTY5&event=video_description&v=0eWrpsCLMJQ)
+
+[Kudvenkat Angular CRUD Tutorial - Youtube](https://www.youtube.com/playlist?list=PL6n9fhu94yhXwcl3a6rIfAI7QmGYIkfK5)
 
 ## Get the Prerequisites
 
-### Node Package Manager (npm)
+### Step 1: Get Node Package Manager (npm)
 
-##### Install npm from this link:
+##### Download npm [here](https://www.npmjs.com/get-npm).
 
-https://www.npmjs.com/get-npm
+### Step 2: Get Angular
 
-### Angular
-
-##### Install Angular from npm using the commands from this link:
-
-https://angular.io/guide/quickstart
-
-This link also leads to the official documentation of Angular
+##### Installing Angular from npm is described [here](https://angular.io/guide/quickstart). This link also leads to the official documentation of Angular.
 
 ## Angular CLI Commands
 
@@ -401,6 +397,51 @@ To use the ngModel directive, we need to import the FormsModule from '@angular/f
     export class AppModule { }
 
 
+
+
+## Form Validation
+
+Angular disables the browser native validation on forms by default. Since the validation messages appear different in every browser, it is better to use custom validation. 
+
+####Reactivate native validation#
+
+Use the ngNativeValidate directive in the opening tag of the form to re-enable browser built-in validation. The text field in the example is set to required using the HTML5 *required* attribute. If the text field is left empty and the Submit button is clicked, the form will not be submitted and the browser will display its built-in validation attribute. Else, the form will be submitted and the code in the *onSave()* method is executed, which logs the value of the text field to the console. For more information on HTML5 validation attributes, click [this Link](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Form_validation).
+
+*component.html*
+
+    <form #textForm="ngForm" ngNativeValidate (ngSubmit)="onSave(textForm)">
+
+            <div class="input">
+                <label>Text</label>
+                <input required [(ngModel)]="text" name="text" #textControl="ngModel" type="text">
+            </div>
+    
+            <div>
+                <button class="inputButton" type="submit">Submit</button>
+            </div>
+
+    </form>
+
+*component.ts*
+
+    import { NgForm } from '@angular/forms/forms';
+
+
+
+    export class CustomersComponent implements OnInit {
+        
+      private text = "";
+    
+	  ....
+    
+      onSave(textForm: NgForm) {
+    	console.log(textForm.value);
+      }
+
+    }
+
+
+
 ## Data Flow between Components:	Child => Parent
 To send data from a child component to its parent component, Angular provides an Output mechanism with the EventEmitter class. The syntax works like this:
 
@@ -474,6 +515,7 @@ In the parent component, declare a variable to hold the value sent by the child 
 ###ng-content	*(Allow other elements inside this element)*
 
 ngcontent + ngif
+
 
 ## Pipes
 
@@ -658,12 +700,51 @@ Inject the HttpClient into the Constructor of the Service. Depending on the Back
 
 
 #####Get Observable from HTTP Response and cast it into an Array of Objects
+To cast the HTTP Response into an Array of Customer Objects, the Type Customer and an ICustomer Interface need to be created first. For the sake of simplicity, the Type and Interface will be declared inside the Service file.
+
+*customer.service.ts*
+
+	@Injectable()
+	export class CustomerService {
+
+	...
+
+		getCustomers(url : string): Observable<ICustomer[]>{
+	    	return this._http.get<ICustomer[]>(url);
+	  	}
+	}
+
+	export interface ICustomer {
+	  id : number;
+	  firstname : string;
+	  lastname : string;
+	  company : string;
+	}
+	
+	export class Customer {
+	  public id : number;
+	  public firstname : string;
+	  public lastname : string;
+	  public company : string;
+	}
 
 
 
 #####Subscribe to the Observable from the Components that need the Data
+The Component that requires the Data fetched from the HTTP Server can now subscribe to the "getCustomers()" Method. The Argument to the Subscribe Method is a Lambda Expression that tells the Subscribe Method to assign its data to the "customers" Array.
 
 
+	export class CustomersComponent implements OnInit {
+	
+	private customers : Customer[] = [];
+	
+	....
+	
+		ngOnInit() {
+			this._customerService.getCustomers()
+				.subscribe(data => this.customers = data);
+		}
+	}
 
 #####Assign the Array to a local Variable
 
@@ -737,4 +818,48 @@ The expression used here is evaluated as follows:
 
 *- if the json object does not have a property called "name" then assign "No Name Specified" to this.name*
 
+##Routing
 
+To navigate between views, Angular provides a Router. To use it, several steps are necessary.
+
+######Please note: to copy & paste these examples, your Angular app requires a *customers* component and a *products* component. Otherwise, the code snippets need to be changed according to your actual application.
+
+In app.module.ts, import the RouterModule and Routes Object from @angular/router. Also declare an Array of type Routes that will hold the routes for the application. Now add the routes as shown below in the example for two components "customers" and "products". The last item in the example Array is used to configure what happens if the base URL of the application is called. In this case, the app will reroute the user to the customers route. Then add the Routermodule to the imports Array, passing the appRoutes Object using the forRoot method.
+
+*app.module.ts*
+
+    import { RouterModule, Routes } from '@angular/router';
+    
+    
+    const appRoutes: Routes = [
+      { path: 'customers', component: CustomersComponent },
+      { path: 'products', component: ProductsComponent },
+      { path: '', redirectTo: '/customers', pathMatch: 'full' }
+    ];
+    
+	@NgModule({
+	  declarations: [...],
+	  imports: [
+		...
+	    RouterModule.forRoot(appRoutes),
+	    ...
+	  ],
+	  providers: [...],
+	  bootstrap: [...]
+	})
+
+
+### Routing from a Button Click
+
+In the app.component.html, create a nav bar that holds some buttons which will call the routes. Configure the routes that shall be called using the `routerLink` directive provided the by the RouterModule. The `<router-outlet></router-outlet>` component specifies where the components that were specified in the `appRoutes` Array will be shown.
+
+*app.component.html*
+
+
+	<nav class="navbar navbar-default">
+		<ul class="nav navbar-nav">
+			<li><a routerLink="customers">Customers</a></li>
+			<li><a routerLink="products">Products</a></li>
+		</ul>
+	</nav>
+	<router-outlet></router-outlet>
