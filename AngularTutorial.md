@@ -399,11 +399,71 @@ To use the ngModel directive, we need to import the FormsModule from '@angular/f
 
 
 
-## Form Validation
+## Forms in Angular
+
+Most applications require some type of Form elements that the user can interact with to enter new data or change existing data. There are two different ways to create Forms in Angular. Template Driven Forms, which are used for simple Forms or Model Driven Forms (Reactive Forms), which allow for more complex Forms that use cross-field validation etc.
+
+####Template Driven Forms
+
+#####Template Reference Variable
+
+`#employeeForm` is called the template reference variable. Notice we have assigned `ngForm` as the value for the template reference variable `employeeForm`. So `employeeForm` variable holds a reference to the form. When Angular sees a form tag, it automatically attaches the `ngForm` directive to it. The `ngForm` directive supplements the form element with additional features. It holds all the form controls that we create with `ngModel` directive and name attribute, and monitors their properties like value, dirty, touched, valid etc. The form also has all these properties.
+
+#####Angular Form Directives
+This is an example for a Template Driven Form. It uses the `ngModel` directive for Two-Way Databinding, although there is not underlying Object in the TypeScript class yet. The `ngForm` Directive also creates a dummy Object to hold the values in this Form, so this Directive is predestined to use with Object Oriented Programming. The Object can be displayed in the view using Interpolation with *json* Pipe: `{{employeeForm.value | json}}`. The `ngSubmit` directive is called when the button with `type="submit"` is clicked and passes the whole Template Reference Variable to the `saveEmployee()` Method.
+
+*component.html*
+
+	 <form #employeeForm="ngForm" (ngSubmit)="saveEmployee(employeeForm)">
+	  <div class="panel panel-primary">
+	    <div class="panel-heading">
+	      <h3 class="panel-title">Create Employee</h3>
+	    </div>
+	    <div class="panel-body">
+	
+	      <div class="form-group">
+	        <label for="fullName">Full Name</label>
+	        <input id="fullName" type="text" class="form-control"
+	               name="fullName" [(ngModel)]="fullName">
+	      </div>
+	
+	      <div class="form-group">
+	        <label for="email">Email</label>
+	        <input id="email" type="text" class="form-control"
+	               name="email" [(ngModel)]="email">
+	      </div>
+	
+	    </div>
+	    <div class="panel-footer">
+	      <button class="btn btn-primary" type="submit">Save</button>
+	    </div>
+	  </div>
+	</form>
+
+	{{employeeForm.value | json}}
+
+*component.ts*
+
+    onSave(employeeForm: NgForm) {
+    	console.log(employeeForm.value);
+    }
+
+
+
+#####The ngSubmit directive 
+... submits the form when we hit the enter key or when we click the Submit button. When the form is submitted, `saveEmployee()` method is called and we are passing it the employeeForm. We do not have this method yet. We will create it in the component class in just a bit.
+
+####Model Driven Forms
+
+
+
+
+
+### Form Validation
 
 Angular disables the browser native validation on forms by default. Since the validation messages appear different in every browser, it is better to use custom validation. 
 
-####Reactivate native validation#
+####Reactivate native validation
 
 Use the ngNativeValidate directive in the opening tag of the form to re-enable browser built-in validation. The text field in the example is set to required using the HTML5 *required* attribute. If the text field is left empty and the Submit button is clicked, the form will not be submitted and the browser will display its built-in validation attribute. Else, the form will be submitted and the code in the *onSave()* method is executed, which logs the value of the text field to the console. For more information on HTML5 validation attributes, click [this Link](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Form_validation).
 
