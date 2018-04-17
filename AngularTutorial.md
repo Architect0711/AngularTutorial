@@ -1,12 +1,19 @@
 # Angular 5 Tutorial
 
-I use this document as a reference for Angular development. All code examples are copy & paste-able. Some code examples worked with complex objects that were parts of programs I created, so they need to be adapted to your specific use case.
+I use this document as a reference for Angular development. All code examples are copy & paste-able. Some code examples worked with complex objects that were parts of programs I created, so they need to be adapted to your specific use case. Also, I don't bother with removing all the css classes assigned to my HTML elements when I copy & paste my code in here.
 
 [Codevolution Angular 5 Tutorial - Youtube](https://www.youtube.com/watch?v=0eWrpsCLMJQ&list=PLC3y8-rFHvwhBRAgFinJR8KHIrCdTkZcZ)
 
 [Codevolution Angular 5 Tutorial - Github](https://www.youtube.com/redirect?q=https%3A%2F%2Fgithub.com%2Fgopinav&redir_token=4qOBqon9qk1YpzwfftzVX-bbTz18MTUyMzA4NDk2OUAxNTIyOTk4NTY5&event=video_description&v=0eWrpsCLMJQ)
 
 [Kudvenkat Angular CRUD Tutorial - Youtube](https://www.youtube.com/playlist?list=PL6n9fhu94yhXwcl3a6rIfAI7QmGYIkfK5)
+
+## TO DO
+
+How to customize the input date for Datepicker
+
+Add links to the structural directive documentation
+
 
 ## Get the Prerequisites
 
@@ -229,10 +236,11 @@ If two styles are not enough for the desired application, it is possible to bind
 
     <h2 [style.color]="highlightColor">Text</h2>
 
+## One Way Data Binding
 
-## Data Flow inside a Component: Class => View
+### Data Flow inside a Component: Class => View
 
-###Interpolation - works only with string values
+#### Interpolation - works only with string values
 
 Use `{{variable-name}}` to use the value of a variable in the HTML view
 
@@ -262,7 +270,7 @@ Use a variable in the component.ts for that:
 
     {{siteUrl}}
 
-### Property Binding - can also work with boolean values
+#### Property Binding - can also work with boolean values
 
 Attributes - Initial Values defined by HTML, read by using `(.getAttribute('value'))`
 
@@ -303,7 +311,7 @@ using a boolean Variable to make the view respond when the Variable value change
     <input bind-disabled="isDisabled" type="text" value="Vishwas">
 
 
-## Data Flow inside a Component: View => Class
+### Data Flow inside a Component: View => Class
 
 To interact with the typescript class from the view, Angular offers Event Binding. Simply add the type of Event like "click" to the Element and assign the name of the function that should be called to it.
 
@@ -358,7 +366,100 @@ Angular can also execute code manually right from the HTML
     <button (click)="sometext='this text was changed inline directly from HTML'" type="button">Click Me</button>
 	<button (click)="onClick()" type="button">And me afterwards</button>
 
-## Two Way Data Binding inside a Component: View <=> Class
+
+### Pipes
+
+Pipes allow to transform the data before showing it in the view. The data is *only* transformed for the view. The values of the properties in the class do *not* change
+
+#### String Pipes
+
+*component.ts*
+
+    name = "StringPipeTest";
+	title = "this is the title";
+	slice = "0123456789";
+	person = {
+		"firstName": "John",
+		"lastName": "Doe"
+	}
+
+*component.html*
+
+display the string in all lowercase or all uppercase
+
+    <h2>{{ name | lowercase }}</h2>
+	<h2>{{ name | uppercase }}</h2>
+
+display the string with first letter of every word capitalized
+
+	<h2>{{ title | titlecase }}</h2>
+
+display part of the string, starting with (zero-based) index 3
+
+	<h2>{{ slice | slice:3 }}</h2>
+
+display part of the string, starting with (zero-based) index 3 up to index 4
+
+	<h2>{{ slice | slice:3:5 }}</h2>
+
+display the string in lowercase
+
+	<h2>{{ person | json }}</h2>
+	
+#### Number Pipes
+
+*component.html*
+
+number pipe specifies the number of digits and decimal digits: 
+'1.2-3' = shows 5.678 - minimum number of digits = 1 - decimal digits minimum 2, maximum 3
+
+    <h2>{{ 5.678 | number:'1.2-3' }}</h2>
+
+shows 05.6780
+
+    <h2>{{ 5.678 | number:'2.4-5' }}</h2>
+
+shows 005.68
+
+    <h2>{{ 5.678 | number:'3.1-2' }}</h2>
+
+turns a decimal into its percentage => shows 25%
+
+	<h2>{{ 0.25 | percent }}</h2>
+
+no currency code: default shows $0.25 (US Dollars)
+
+	<h2>{{ 0.25 | currency }}</h2>
+
+currency code 'EUR': shows €0.25 (Euro) check the [ISO Currency Code List](https://en.wikipedia.org/wiki/ISO_4217) for more currency codes
+ 
+	<h2>{{ 0.25 | currency: 'EUR' }}</h2>
+													//  
+	<h2>{{ 0.25 | currency: 'EUR' : code }}</h2>	//  shows the code instead of the currency sign: shows EUR0.25
+
+#### Date & Time Pipes
+
+*component.ts*
+
+    date = new Date();
+
+*component.html*
+
+	<h2>{{date}}</h2>
+	<h2>{{date | date:'short'}}</h2>
+	<h2>{{date | date:'shortDate'}}</h2>
+	<h2>{{date | date:'shortTime'}}</h2>
+	<h2>{{date | date:'medium'}}</h2>
+	<h2>{{date | date:'mediumDate'}}</h2>
+	<h2>{{date | date:'mediumTime'}}</h2>
+	<h2>{{date | date:'long'}}</h2>
+	<h2>{{date | date:'longDate'}}</h2>
+	<h2>{{date | date:'longTime'}}</h2>
+
+
+## Two Way Data Binding 
+
+### Data Flow inside a Component: View <=> Class
 When working with input elements, it is essential that the model (in the class) and the user input (in the view) are always in sync. For this purpose, Angular provides the ngModel directive. 
 
 The basic syntax is a Mix between [Propery Binding] and (Event Binding):
@@ -452,11 +553,137 @@ To bind the String Values selected in a Dropdown to a Model, these steps must be
 		"not sure"
 	];
 
+### Two Way Binding DateTime Values to a DatePicker
+
+It is bad practice to use the browser built-in DatePicker, because the implementation varies from browser to browser in terms of layout and data format. To achieve the same function, look and feel across all browsers, it is recommended to use a custom DatePicker. This example will be using the [Datepicker](https://valor-software.com/ngx-bootstrap/#/datepicker) from [Valor Software's ngx-bootstrap](https://valor-software.com/ngx-bootstrap/#/)
+
+The [Getting Started Guide](https://valor-software.com/ngx-bootstrap/#/getting-started) provides Information about this, except for the part how to install bootstrap 3 / 4.
+
+#### Step 1: Install ngx-bootstrap
+
+	npm install ngx-bootstrap --save
+
+#### Step 2: Install bootstrap 3 or 4
+
+	npm install bootstrap@3 --save
+
+	npm install bootstrap@4 --save
+
+#### Step 3.1: Either reference the bootstrap stylesheet in your *.angular-cli.json*
+Find the *"styles"* section in your *.angular-cli.json* file and add the following line.
+
+      "styles": [
+		...
+		"../node_modules/bootstrap/dist/css/bootstrap.min.css",
+        ...
+      ],
+
+#### Step 3.2: Or reference the bootstrap stylesheet in your *index.html*
+Add one of these lines to the index.html of your application, depending on which version of bootstrap you installed.
+
+*index.html*
+
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+
+#### Step 4: Import the desired component into the *app.modules.ts* and add it to the *imports* Array
+In this example, we import the Datepicker. The [Datepicker Documentation Page](https://valor-software.com/ngx-bootstrap/#/datepicker) contains the import commands that have to be included.
+
+*app.module.ts*
+
+	// RECOMMENDED (doesn't work with system.js)
+	import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
+	// or
+	import { BsDatepickerModule } from 'ngx-bootstrap';
+	
+	@NgModule({
+	  imports: [BsDatepickerModule.forRoot(),...]
+	})
+	export class AppModule(){}
+
+#### Step 5: Reference the Datepicker stylesheet in *.angular-cli.json*
+Find the *"styles"* section in your *.angular-cli.json* file and add another line that points to the component you want to use.
+
+      "styles": [
+		...
+		"../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+        ...
+      ],
+
+#### Step 6: Declare a Datepicker in your Application
+Declare an *input* and set its type to "text" (NOT "date"!) and add the *bsDatepicker* directive to the element as shown in the example below. Then just use the *[(ngModel)]* directive to bind the Datepicker to the Model's Date value (e.g. Birthday). 
+
+*component.html*
+
+	<div class="input">
+		<label>Birthday</label>
+		<input [(ngModel)]="selectedPatient.birthday" name="birthday" #birthdayControl="ngModel" bsDatepicker type="text">
+	</div>		
+
+*component.ts*
+	
+	public selectedPatient : Patient = new Patient();
+
+
+#### Step 7: Customize the Component
+Check the [Theme Reference](https://valor-software.com/ngx-bootstrap/#/datepicker#themes) of the Component to find a proper Theme. Then Import the Config Object into the Component that uses the Datepicker. Then create a Property to hold the values. Check the definition in *bs-datepicker.config.d.ts* (right-click => Go to Definition in VS Code) to find all the Properties it has. Use the Object.assign() Method to assign the desired configuration to the Element. Then Property Bind the *datePickerConfig* Object to the bsConfig Property of the Datepicker in the HTML Tag.
+
+*component.ts*
+	
+	import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker'
+
+	datePickerConfig: Partial<BsDatepickerConfig>;
+
+	constructor(private _patientService: PatientService) { 
+	    this.datePickerConfig = Object.assign({}, { containerClass: 'theme-dark-blue', showWeekNumbers: true});
+	}
+
+*component.html*
+	
+	<div class="input">
+		<label>Birthday</label>
+		<input [(ngModel)]="selectedPatient.birthday" name="birthday" #birthdayControl="ngModel" bsDatepicker [bsConfig]="datePickerConfig" type="text">
+	</div>		
+
+
+#### Step X: Customize the Input Date Format [TBD]
+I used the ngModel directive to bind the Datepicker to the Birthday Property of my Model. 
+Now my Forms Model accepts the Value from the Datepicker just fine (View => Class). The Format looks like this: 
+
+`"2018-04-19T08:35:25.000Z"`
+
+But when I want the Datepicker to be set from the Property of the Model (Class => View), it sais 'Invalid date'. Then the Format looks like this: 
+
+`"2018-04-17T00:00:00+02:00"`
+
+This is of course not the desired behavior. The Datepicker be able to assign a value to the Patient Object, but it should also be able to show the initial value when the Patient is loaded and his / her Birthday has a different Format.
+
+
+### Two Way Binding a Complex Object from a Dropdown to another Object
+
+The Data Types in this example are like a simple Web Shop would use them. An *Item* Object is bound to a *Customer* Object. To work with the *Item* Object-Oriented, it is insufficient to bind the ID of the Item (if it even has one...) or a string representation. The *Customer* has a Property e.g. MyItem, which is of Type Item, so the expected behavior is to bind an Item-Object to that Property. And this is the Syntax:
+
+*component.html*
+
+      <div class="form-group">
+        <label for="singleItem">Dropdown for assigning a single Object</label>
+        <select required id="singleItem"  class="form-control inputResize" #singleItemControl="ngModel" name="singleItem" [(ngModel)]="selectedCustomer.singleItem">
+          <option *ngFor="let item of items" [ngValue]="item">{{item.description}}</option>
+        </select>
+      </div>
+
+The [ngValue] directive is the key here. It is bound directly to the "item" from the **ngFor* directive, so it points to the object itself. Using [value]="item" isn't going to do the trick, it is just going to bind a string to the Property *selectedCustomer.singleItem*.
+
+### Adding an Item to 
+
 ## Forms in Angular
 
 Most applications require some type of Form elements that the user can interact with to enter new data or change existing data. There are two different ways to create Forms in Angular. Template Driven Forms, which are used for simple Forms or Model Driven Forms (Reactive Forms), which allow for more complex Forms that use cross-field validation etc.
 
-####Template Driven Forms
+####[Template Driven Forms](https://angular.io/guide/forms)
+
 
 #####Template Reference Variable
 
@@ -506,7 +733,7 @@ This is an example for a Template Driven Form. It uses the `ngModel` directive f
 #####The ngSubmit directive 
 ... submits the form when we hit the enter key or when we click the Submit button. When the form is submitted, `saveEmployee()` method is called and we are passing it the employeeForm. We do not have this method yet. We will create it in the component class in just a bit.
 
-####Model Driven Forms
+####[Model Driven Forms (Reactive Forms)](https://angular.io/guide/reactive-forms)
 
 
 
@@ -554,8 +781,9 @@ Use the ngNativeValidate directive in the opening tag of the form to re-enable b
     }
 
 
+## Data Flow Between Components
 
-## Data Flow between Components:	Child => Parent
+### Data Flow:	Child => Parent
 To send data from a child component to its parent component, Angular provides an Output mechanism with the EventEmitter class. The syntax works like this:
 
 Declare an instance of the EventEmitter class and put the Output decorator on it. Be sure to import them both. Have the emitter emit a value in the click event of a button for example.
@@ -593,7 +821,7 @@ Then, in the parent component, declare a variable to hold the value sent by the 
 
     <app-child (outputEventEmitter)="childData=$event"></app-child>
 
-## Data Flow between Components:	Parent => Child
+### Data Flow:	Parent => Child
 
 In the parent component, declare a variable to hold the value sent by the child component. Mark that variable with the input decorator (which needs to be imported aswell).
 
@@ -629,95 +857,6 @@ In the parent component, declare a variable to hold the value sent by the child 
 
 ngcontent + ngif
 
-
-## Pipes
-
-Pipes allow to transform the data before showing it in the view. The data is *only* transformed for the view. The values of the properties in the class do *not* change
-
-### String Pipes
-
-*component.ts*
-
-    name = "StringPipeTest";
-	title = "this is the title";
-	slice = "0123456789";
-	person = {
-		"firstName": "John",
-		"lastName": "Doe"
-	}
-
-*component.html*
-
-display the string in all lowercase or all uppercase
-
-    <h2>{{ name | lowercase }}</h2>
-	<h2>{{ name | uppercase }}</h2>
-
-display the string with first letter of every word capitalized
-
-	<h2>{{ title | titlecase }}</h2>
-
-display part of the string, starting with (zero-based) index 3
-
-	<h2>{{ slice | slice:3 }}</h2>
-
-display part of the string, starting with (zero-based) index 3 up to index 4
-
-	<h2>{{ slice | slice:3:5 }}</h2>
-
-display the string in lowercase
-
-	<h2>{{ person | json }}</h2>
-	
-### Number Pipes
-
-*component.html*
-
-number pipe specifies the number of digits and decimal digits: 
-'1.2-3' = shows 5.678 - minimum number of digits = 1 - decimal digits minimum 2, maximum 3
-
-    <h2>{{ 5.678 | number:'1.2-3' }}</h2>
-
-shows 05.6780
-
-    <h2>{{ 5.678 | number:'2.4-5' }}</h2>
-
-shows 005.68
-
-    <h2>{{ 5.678 | number:'3.1-2' }}</h2>
-
-turns a decimal into its percentage => shows 25%
-
-	<h2>{{ 0.25 | percent }}</h2>
-
-no currency code: default shows $0.25 (US Dollars)
-
-	<h2>{{ 0.25 | currency }}</h2>
-
-currency code 'EUR': shows €0.25 (Euro) check the [ISO Currency Code List](https://en.wikipedia.org/wiki/ISO_4217) for more currency codes
- 
-	<h2>{{ 0.25 | currency: 'EUR' }}</h2>
-													//  
-	<h2>{{ 0.25 | currency: 'EUR' : code }}</h2>	//  shows the code instead of the currency sign: shows EUR0.25
-
-### Date & Time Pipes
-
-*component.ts*
-
-    date = new Date();
-
-*component.html*
-
-	<h2>{{date}}</h2>
-	<h2>{{date | date:'short'}}</h2>
-	<h2>{{date | date:'shortDate'}}</h2>
-	<h2>{{date | date:'shortTime'}}</h2>
-	<h2>{{date | date:'medium'}}</h2>
-	<h2>{{date | date:'mediumDate'}}</h2>
-	<h2>{{date | date:'mediumTime'}}</h2>
-	<h2>{{date | date:'long'}}</h2>
-	<h2>{{date | date:'longDate'}}</h2>
-	<h2>{{date | date:'longTime'}}</h2>
 
 ## Services and Dependency Injection
 
@@ -935,7 +1074,7 @@ The expression used here is evaluated as follows:
 
 To navigate between views, Angular provides a Router. To use it, several steps are necessary.
 
-######Please note: to copy & paste these examples, your Angular app requires a *customers* component and a *products* component. Otherwise, the code snippets need to be changed according to your actual application.
+######Please note: This example was copied from a YouTube Tutorial. To copy & paste these examples, your Angular app requires a *customers* component and a *products* component. Otherwise, the code snippets need to be changed according to your actual application.
 
 In app.module.ts, import the RouterModule and Routes Object from @angular/router. Also declare an Array of type Routes that will hold the routes for the application. Now add the routes as shown below in the example for two components "customers" and "products". The last item in the example Array is used to configure what happens if the base URL of the application is called. In this case, the app will reroute the user to the customers route. Then add the Routermodule to the imports Array, passing the appRoutes Object using the forRoot method.
 
