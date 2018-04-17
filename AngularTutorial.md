@@ -1,6 +1,6 @@
 # Angular 5 Tutorial
 
-I use this document as a reference for Angular development. All code examples are copy & paste-able
+I use this document as a reference for Angular development. All code examples are copy & paste-able. Some code examples worked with complex objects that were parts of programs I created, so they need to be adapted to your specific use case.
 
 [Codevolution Angular 5 Tutorial - Youtube](https://www.youtube.com/watch?v=0eWrpsCLMJQ&list=PLC3y8-rFHvwhBRAgFinJR8KHIrCdTkZcZ)
 
@@ -397,7 +397,60 @@ To use the ngModel directive, we need to import the FormsModule from '@angular/f
     export class AppModule { }
 
 
+### Two Way Binding a Boolean Value to two Radio Buttons
 
+To bind two Radio Buttons to a Model that has a boolean value, these steps must be taken:
+
+1.) Give both inputs the same `name` attribute, so they can not be triggered at the same time. 
+
+2.) Bind the inputs to the same same property. In this case, its the *isPrivate* property of the *Insurance* object.
+
+3.) The *value* has to be set with square braces (Property Binding) to *"true"* or *"false"*
+
+*component.html*
+
+	<form #insurancesForm="ngForm">
+        <div class="row dualRadio">
+            <div>
+                <input type="radio" name="private" [(ngModel)]="Insurance.isPrivate" [value]="false"><label>false</label>
+            </div>
+            <div>
+                <input type="radio" name="private" [(ngModel)]="Insurance.isPrivate" [value]="true"><label>true</label>
+            </div>
+        </div>
+	</form>
+
+*component.ts*
+
+	Insurance = new Insurance();
+
+
+### Two Way Binding String Values to a Dropdown List
+
+To bind the String Values selected in a Dropdown to a Model, these steps must be taken:
+
+1.) Give both the label and the select the same `name` attribute, so they are linked. 
+
+2.) Use the ngModel directive as usual to bind the value of the dropdown to the Property. In this case, it is the `gender` Property of the `Patient` Object.
+
+3.) The *value* has to be set with square braces (Property Binding) to *"true"* or *"false"*
+
+*component.html*
+
+	<label for="gender">Gender</label>
+	<select id="gender" name="gender" [(ngModel)]="Patient.gender">
+	  <option *ngFor="let gender of genders">{{gender}}</option>
+	</select>
+
+*component.ts*
+
+	Patient = new Patient();
+	
+	private genders : string[] = [
+		"male",
+		"female",
+		"not sure"
+	];
 
 ## Forms in Angular
 
