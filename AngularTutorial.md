@@ -14,6 +14,10 @@ How to customize the input date for Datepicker
 
 Add links to the structural directive documentation
 
+Remove from Array by clicking td
+
+Add item from select to Array
+
 
 ## Get the Prerequisites
 
@@ -676,7 +680,30 @@ The Data Types in this example are like a simple Web Shop would use them. An *It
 
 The [ngValue] directive is the key here. It is bound directly to the "item" from the **ngFor* directive, so it points to the object itself. Using [value]="item" isn't going to do the trick, it is just going to bind a string to the Property *selectedCustomer.singleItem*.
 
-### Adding an Item to 
+### Adding an Item to an Array from the View
+
+
+
+### Removing an Item from an Array from the View
+
+Pass the index of the list view to an "onDelete" Method and delete the Object from the Array from there.
+
+*component.html*
+
+	<table class="listView" id="table">
+		<tr>
+		  <th>Delete Example</th>
+		</tr>
+		<tr *ngFor="let patient of patients; let index = i" title={{patient.patientId}} (click)="onDeletePatient(i)">
+		  <td>{{patient.lastName}}, {{patient.firstName}}</td>
+		</tr>
+	</table>
+
+*component.ts*
+
+	onDeletePatients(i: number) {
+		this.patients.splice(i, 1);
+	}
 
 ## Forms in Angular
 
@@ -731,7 +758,7 @@ This is an example for a Template Driven Form. It uses the `ngModel` directive f
 
 
 #####The ngSubmit directive 
-... submits the form when we hit the enter key or when we click the Submit button. When the form is submitted, `saveEmployee()` method is called and we are passing it the employeeForm. We do not have this method yet. We will create it in the component class in just a bit.
+... submits the form when we hit the enter key or when we click the Submit button. When the form is submitted, the *saveEmployee()* method is called and we are passing it the employeeForm. We do not have this method yet. We will create it in the component class in just a bit.
 
 ####[Model Driven Forms (Reactive Forms)](https://angular.io/guide/reactive-forms)
 
@@ -780,6 +807,65 @@ Use the ngNativeValidate directive in the opening tag of the form to re-enable b
 
     }
 
+### Custom validation
+
+Luckily, when using Two Way Data Binding, Form fields have six Properties that help with handling their State:
+
+##### Pristine: Field has not been changed (it is the same as the Property's initial value)
+##### Dirty: Field *has* been changed (it is different from the Property's initial value)
+##### Valid: The Validation Attributes set to this Form Element have been met by the Content
+##### Invalid: The Validation Attributes set to this Form Element have *NOT* been met by the Content
+##### Touched: This is set to *true* when the User even so much as activates a Control (Putting the Cursor in a Textbox or Tabbing over it is enough)
+##### Untouched: User hasn't even touched the Control
+
+The Form itself has these six Properties, too. So it is possible to check if *any* Form Control is *invalid* or has been *touched* etc...
+
+Using these Properties, Angular can build its own Validation Messages. This example shows the basic implementation of Custom Validation: The Textbox has the *required* Attribue, so leaving it empty will result in the *valid* Property being set to *false* and the *invalid* Property being set to *true*.  The [hidden] Property of the *div* that displays the Error Message is set to the input's *valid* Property, so it is only shown when the input is *invalid*. The "Save" Button at the Bottom of the Form has the *invalid* Property of the entire 
+
+*component.html*
+
+    <form #patientForm="ngForm" (ngSubmit)="onSave(patientForm)">
+	    <div class="input form-group">
+	        <label>First Name</label>
+	        <input required [(ngModel)]="selectedPatient.firstName" class="form-control" name="firstName" #firstNameControl="ngModel" type="text">
+	    </div>
+	    <div [hidden]="firstNameControl.valid"
+	      class="alert alert-danger inputResize">
+	      Please Enter the Patient's First Name
+	    </div>
+	
+	....
+
+        <div>
+            <button [disabled]="patientForm.invalid" class="inputButton btn btn-success" type="submit">Save</button>
+        </div>
+
+	</form>
+
+The following HTML can be copy pasted into a Form and used to display the values of a Form or Form Element.
+
+*component.html*
+        <table border=1 style="border-collapse:collapse; font-family:Arial; table-layout: fixed">
+          <tr style="background-color:red; font-weight: bold">
+            <td colspan="3" style="padding:3px; white-space:nowrap; width:100%">
+              <h4 style="margin:2px;">Validation Properties: patientForm</h4>
+            </td>
+          </tr>
+          <tr style="background-color:salmon; font-weight: bold">
+            <td style="padding:10px; white-space:nowrap; width:33%">
+              <div>touched : {{ patientForm.touched }}</div>
+              <div>untouched : {{ patientForm.untouched }}</div>
+            </td>
+            <td style="padding:10px; white-space:nowrap; width:33%">
+              <div>pristine : {{ patientForm.pristine }}</div>
+              <div>dirty : {{ patientForm.dirty }}</div>
+            </td>
+            <td style="padding:10px; white-space:nowrap; width:33%">
+              <div>valid : {{ patientForm.valid }}</div>
+              <div>invalid : {{ patientForm.invalid }}</div>
+            </td>
+          </tr>
+        </table>
 
 ## Data Flow Between Components
 
