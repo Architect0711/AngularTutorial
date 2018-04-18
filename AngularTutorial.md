@@ -1,6 +1,6 @@
 # Angular 5 Tutorial
 
-I use this document as a reference for Angular development. All code examples are copy & paste-able. Some code examples worked with complex objects that were parts of programs I created, so they need to be adapted to your specific use case. Also, I don't bother with removing all the css classes assigned to my HTML elements when I copy & paste my code in here.
+I use this document as a reference for Angular development. All code examples are copy & paste-able. Some code Examples work with complex Objects that were Parts of Programs I created or from Tutorials that I watched, so they need to be adapted to your specific use case. Also, I don't bother with removing all the css classes assigned to my HTML elements when I copy & paste my code in here.
 
 [Codevolution Angular 5 Tutorial - Youtube](https://www.youtube.com/watch?v=0eWrpsCLMJQ&list=PLC3y8-rFHvwhBRAgFinJR8KHIrCdTkZcZ)
 
@@ -12,12 +12,11 @@ I use this document as a reference for Angular development. All code examples ar
 
 How to customize the input date for Datepicker
 
-Add links to the structural directive documentation
-
-Remove from Array by clicking td
+Add links to the structural directive documentations and other ng directives
 
 Add item from select to Array
 
+Sending the changed item back to the backend via rest call
 
 ## Get the Prerequisites
 
@@ -680,11 +679,11 @@ The Data Types in this example are like a simple Web Shop would use them. An *It
 
 The [ngValue] directive is the key here. It is bound directly to the "item" from the **ngFor* directive, so it points to the object itself. Using [value]="item" isn't going to do the trick, it is just going to bind a string to the Property *selectedCustomer.singleItem*.
 
-### Adding an Item to an Array from the View
+### Adding an Item to an Array from the View by selecting it from a Dropdown
 
 
 
-### Removing an Item from an Array from the View
+### Removing an Item from an Array from the View by clicking a Table Row
 
 Pass the index of the list view to an "onDelete" Method and delete the Object from the Array from there.
 
@@ -694,7 +693,7 @@ Pass the index of the list view to an "onDelete" Method and delete the Object fr
 		<tr>
 		  <th>Delete Example</th>
 		</tr>
-		<tr *ngFor="let patient of patients; let index = i" title={{patient.patientId}} (click)="onDeletePatient(i)">
+		<tr *ngFor="let patient of patients; index as i" title={{patient.patientId}} (click)="onDeletePatient(i)">
 		  <td>{{patient.lastName}}, {{patient.firstName}}</td>
 		</tr>
 	</table>
@@ -714,7 +713,7 @@ Most applications require some type of Form elements that the user can interact 
 
 #####Template Reference Variable
 
-`#employeeForm` is called the template reference variable. Notice we have assigned `ngForm` as the value for the template reference variable `employeeForm`. So `employeeForm` variable holds a reference to the form. When Angular sees a form tag, it automatically attaches the `ngForm` directive to it. The `ngForm` directive supplements the form element with additional features. It holds all the form controls that we create with `ngModel` directive and name attribute, and monitors their properties like value, dirty, touched, valid etc. The form also has all these properties.
+`#employeeForm` is called the Template Reference Variable. Notice `ngForm` was assigned as the value for the Template Reference Variable `employeeForm`. So `employeeForm` variable holds a reference to the form. When Angular sees a form tag, it automatically attaches the `ngForm` directive to it. The `ngForm` directive supplements the form element with additional features. It holds all the form controls that we create with `ngModel` directive and name attribute, and monitors their properties like value, dirty, touched, valid etc. The form also has all these properties.
 
 #####Angular Form Directives
 This is an example for a Template Driven Form. It uses the `ngModel` directive for Two-Way Databinding, although there is not underlying Object in the TypeScript class yet. The `ngForm` Directive also creates a dummy Object to hold the values in this Form, so this Directive is predestined to use with Object Oriented Programming. The Object can be displayed in the view using Interpolation with *json* Pipe: `{{employeeForm.value | json}}`. The `ngSubmit` directive is called when the button with `type="submit"` is clicked and passes the whole Template Reference Variable to the `saveEmployee()` Method.
@@ -1001,7 +1000,11 @@ Now add the Dependency in the Components that need the Service using Constructor
 	}
 
 
-## HTTP Requests: Using Data fetched with HTTP requests
+## HTTP Requests
+
+[Angular-University.io - Guide for Old Http Module, but many things are still relevant](https://blog.angular-university.io/angular-http/)
+
+###GET
 
 There are several ways to parse received Objects into [POCOs](https://en.wikipedia.org/wiki/Plain_old_CLR_object)
 
@@ -1025,7 +1028,7 @@ To send an HTTP Request, the Service needs to use the HttpClientModule. To use i
 
 Inject the HttpClient into the Constructor of the Service. Depending on the Backend used, it may be desirable to configure the Service to work with JSON data as done in the Constructor here.
 
-*customer.service.ts*
+*patient.service.ts*
 
 	import { HttpClient } from '@angular/common/http';
 
@@ -1038,57 +1041,49 @@ Inject the HttpClient into the Constructor of the Service. Depending on the Back
 
 
 #####Get Observable from HTTP Response and cast it into an Array of Objects
-To cast the HTTP Response into an Array of Customer Objects, the Type Customer and an ICustomer Interface need to be created first. For the sake of simplicity, the Type and Interface will be declared inside the Service file.
+To cast the HTTP Response into an Array of Patient Objects, the Type Patient and an IPatient Interface need to be created first. For the sake of simplicity, the Type and Interface will be declared inside the Service file.
 
-*customer.service.ts*
+*patient.service.ts*
 
 	@Injectable()
-	export class CustomerService {
+	export class PatientService {
 
 	...
 
-		getCustomers(url : string): Observable<ICustomer[]>{
-	    	return this._http.get<ICustomer[]>(url);
+		getPatients(url : string): Observable<IPatient[]>{
+	    	return this._http.get<IPatient[]>(url);
 	  	}
 	}
 
-	export interface ICustomer {
+	export interface IPatient {
 	  id : number;
 	  firstname : string;
 	  lastname : string;
-	  company : string;
 	}
 	
-	export class Customer {
+	export class Patient {
 	  public id : number;
 	  public firstname : string;
 	  public lastname : string;
-	  public company : string;
 	}
 
 
 
 #####Subscribe to the Observable from the Components that need the Data
-The Component that requires the Data fetched from the HTTP Server can now subscribe to the "getCustomers()" Method. The Argument to the Subscribe Method is a Lambda Expression that tells the Subscribe Method to assign its data to the "customers" Array.
+The Component that requires the Data fetched from the HTTP Server can now subscribe to the "getPatients()" Method. The Argument to the Subscribe Method is a Lambda Expression that tells the Subscribe Method to assign its data to the "customers" Array.
 
 
-	export class CustomersComponent implements OnInit {
+	export class PatientsComponent implements OnInit {
 	
-	private customers : Customer[] = [];
+	private customers : Patient[] = [];
 	
 	....
 	
 		ngOnInit() {
-			this._customerService.getCustomers()
-				.subscribe(data => this.customers = data);
+			this._patientService.getPatients()
+				.subscribe(data => this.patients = data);
 		}
 	}
-
-#####Assign the Array to a local Variable
-
-
-
-
 
 ###"Try Parse Method"
 
@@ -1155,6 +1150,31 @@ The expression used here is evaluated as follows:
 *- if the json object has a property called "name" then assign its value to this.name*
 
 *- if the json object does not have a property called "name" then assign "No Name Specified" to this.name*
+
+##POST
+
+#####  Preflight the HTTP POST Request
+
+
+
+#####  Subscribe to the POST Observable
+To save a newly created Object to the Backend, it is not enough to simply send a Patient Object to the PatientService and have the Service make a POST call. The HTTPClient in Angular will only execute that REST Call, if the Angular Application subscribes to the Observable that is returned by the HttpClient.post Method. To execute the call properly: have the Method in the Service that calls the HttpClient.post Method return the result of the HTTP call: `return this._http.post(this.baseUrl + "patients", body, this.httpOptions);`. Then, subscribe to the response (which is an Observable) in the Component Method: `this._patientService.postPatient(this.selectedPatient).subscribe(...);`. It is not necessary to assign the Response to a Variable, the *subscribe* Method can just make a console log for example.
+
+*patient.component.ts*
+
+	onSavePatient() {
+	    this._patientService.postPatient(this.selectedPatient)
+	                         .subscribe(() => console.log('patient saved successfully'),
+	                         console.error
+	                     );  
+	  }
+
+*patient.service.ts*
+	
+	postCustomer(patient: Patient) {
+		let body = JSON.stringify(patient);
+		return this._http.post(this.baseUrl + "patients", body, this.httpOptions);
+	}
 
 ##Routing
 
