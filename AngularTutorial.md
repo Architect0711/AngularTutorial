@@ -8,6 +8,8 @@ I use this document as a reference for Angular development. All code examples ar
 
 [Kudvenkat Angular CRUD Tutorial - Youtube](https://www.youtube.com/playlist?list=PL6n9fhu94yhXwcl3a6rIfAI7QmGYIkfK5)
 
+[Blog: Angular in Depth](https://blog.angularindepth.com/)
+
 ## TO DO
 
 How to customize the input date for Datepicker
@@ -15,8 +17,6 @@ How to customize the input date for Datepicker
 Add links to the structural directive documentations and other ng directives
 
 Add item from select to Array
-
-Sending the changed item back to the backend via rest call
 
 ## Get the Prerequisites
 
@@ -30,30 +30,22 @@ Sending the changed item back to the backend via rest call
 
 ## Angular CLI Commands
 
+####Configure CLI Output
+
+Run `set DEBUG=express:*` to enable debug output
+
+Run `set DEBUG=` to disable debug output
+
 ####Generate a new App
 
 Run `ng new app-name` to generate a new app in the current folder.
 
+Run `ng serve --proxy-config proxy.conf.json` to launch the app and use the proxy route specified in proxy.conf.json
+
+
 ####Launch the App
 
 Run `ng serve` to  launch the app.
-
-Run `ng serve --proxy-config proxy.conf.json` to launch the app and connect to the server specified in proxy.conf.json
-
-Server config in proxy.conf.json can look like this:
-    
-    {
-      "/api": {
-	    "target": "http://localhost:12345/",
-	    "secure": false
-      }
-    }
-
-This connection can be used in a service like:
-
-    this.baseUrl = baseUrl ? baseUrl : '/api';		<--- access the 'api' connection
-
-	return this._http.get(baseUrl+"/data);			<--- fetch data
 
 ####Generate Components
 
@@ -1001,8 +993,47 @@ Now add the Dependency in the Components that need the Service using Constructor
 
 
 ## HTTP Requests
-
 [Angular-University.io - Guide for Old Http Module, but many things are still relevant](https://blog.angular-university.io/angular-http/)
+
+
+
+The [Same-origin policy](https://en.wikipedia.org/wiki/Same-origin_policy) permits scripts contained in a first web page to access data in a second web page, but only if both web pages have the same origin. An origin is defined as a combination of URI scheme, host name, and port number. This policy prevents a malicious script on one page from obtaining access to sensitive data on another web page through that page's Document Object Model. So an Angular Application making the Request by itself will throw an Error like *"No 'Access-Control-Allow-Origin' header is present on the requested resource."*. There are two ways to handle the situation: [Enabling CORS](https://enable-cors.org/index.html), which requires Client & Server side Configuration, or using a Browser Proxy to make the Request for the Angular App, which requires Client side Configuration only.
+
+### Cross-Origin-Requests: using CORS (TBD)
+
+[CORS Client Side](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
+
+[CORS Server Side](https://developer.mozilla.org/en-US/docs/Web/HTTP/Server-Side_Access_Control)
+
+
+
+### Cross-Origin Requests: using Browser Proxy
+
+The Browser can do the Request for the Angular Application, thus eliminating the need to configure the Server for Cross-Origin-Resource-Sharing. This Method only requires the Configuration of the Client. It makes use of a *.json* file to configure the Client.
+
+- in the Application Main Folder (same Folder as .angular.cli.json), create a file for the proxy configuration, e.g. *proxy.conf.json*
+
+- copy the following text into that file and configure the "target" parameter according to the target URL:
+
+		{
+			"/api": {
+			    "target": "http://localhost:12345/",
+			    "secure": false
+			}
+		}
+
+
+
+This connection can now be used in a service like:
+
+    this.baseUrl = baseUrl ? baseUrl : '/api';		<--- access the 'api' connection
+
+	return this._http.get(baseUrl+"/data);			<--- fetch data from api endpoint "/data"
+
+All requests to /api will be made to the URL specified as "target" and will 
+
+Run `ng serve --proxy-config proxy.conf.json` to launch the app and use the proxy route specified in proxy.conf.json
+
 
 ###GET
 
@@ -1153,7 +1184,9 @@ The expression used here is evaluated as follows:
 
 ##POST
 
-#####  Preflight the HTTP POST Request
+*When working with an ASP.NET Web API & Entity Framework (like my PatientManagement Project), the Primary Key (in my case "patientId" must be set to 0 for a POST Request to work. The Api Controller will check the Value of the Primary Key and return a 400 Bad Request if the key is NULL!*
+
+#####  Preflight the HTTP POST Request (TBD)
 
 
 
