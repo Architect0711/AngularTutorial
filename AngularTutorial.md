@@ -900,19 +900,27 @@ Then, in the parent component, declare a variable to hold the value sent by the 
 
 ### Data Flow:	Parent => Child
 
-In the parent component, declare a variable to hold the value sent by the child component. Mark that variable with the input decorator (which needs to be imported aswell).
+To pass data into a Child Component, declare a Variable of the 
 
- *parent.component.ts*
+*parent.component.ts*
 
-    import { ... , Input } from '@angular/core';
+    parentData = "some string or number or complex type whatever";
 
-	...
+*child.component.ts*
 
-    @Input() childData = "";
+    @Input() importedParentData = "";
 	
-*child.component.html*
+	
+*parent.component.html*
 
-    <app-child (outputEventEmitter)="childData=$event"></app-child>
+    <app-child [importedParentData]="parentData"></app-child>
+
+### Data Flow between components called by Router outlet
+
+[Example on Stackblitz](https://stackblitz.com/edit/passing-data-between-components-in-router-outlet-to-outside)
+
+
+
 
 ## Control the UI from code => Structural Directives (TBD)
 
