@@ -30,24 +30,24 @@ Add item from select to Array
 
 ## Angular CLI Commands
 
-####Configure CLI Output
+#### Configure CLI Output
 
 Run `set DEBUG=express:*` to enable debug output
 
 Run `set DEBUG=` to disable debug output
 
-####Generate a new App
+#### Generate a new App
 
 Run `ng new app-name` to generate a new app in the current folder.
 
 Run `ng serve --proxy-config proxy.conf.json` to launch the app and use the proxy route specified in proxy.conf.json
 
 
-####Launch the App
+#### Launch the App
 
 Run `ng serve` to  launch the app.
 
-####Generate Components
+#### Generate Components
 
 Run `ng generate component component-name` to generate a new component.
  
@@ -60,7 +60,7 @@ Notes:
 * Components are created in a subdirectory be default - the subdirectory name is the component name. The filenames are <componentname>.component.ts/html/css.
 * Services and Pipes are *not* created/scaffolded in a subdir by default, see below. 
 
-####Generate Services and Models
+#### Generate Services and Models
 
 To create a service in a subdirectory do the following:
 
@@ -154,7 +154,7 @@ In the example above, only myClass will apply
 
 ### Conditional Fluent Class Binding
 
-####Single class
+#### Single class
 
 There is an alternative syntax that binds one class based on a truthy or falsy value. If true, the CSS is applied.
 
@@ -700,14 +700,14 @@ Pass the index of the list view to an "onDelete" Method and delete the Object fr
 
 Most applications require some type of Form elements that the user can interact with to enter new data or change existing data. There are two different ways to create Forms in Angular. Template Driven Forms, which are used for simple Forms or Model Driven Forms (Reactive Forms), which allow for more complex Forms that use cross-field validation etc.
 
-####[Template Driven Forms](https://angular.io/guide/forms)
+#### [Template Driven Forms](https://angular.io/guide/forms)
 
 
-#####Template Reference Variable
+##### Template Reference Variable
 
 `#employeeForm` is called the Template Reference Variable. Notice `ngForm` was assigned as the value for the Template Reference Variable `employeeForm`. So `employeeForm` variable holds a reference to the form. When Angular sees a form tag, it automatically attaches the `ngForm` directive to it. The `ngForm` directive supplements the form element with additional features. It holds all the form controls that we create with `ngModel` directive and name attribute, and monitors their properties like value, dirty, touched, valid etc. The form also has all these properties.
 
-#####Angular Form Directives
+##### Angular Form Directives
 This is an example for a Template Driven Form. It uses the `ngModel` directive for Two-Way Databinding, although there is not underlying Object in the TypeScript class yet. The `ngForm` Directive also creates a dummy Object to hold the values in this Form, so this Directive is predestined to use with Object Oriented Programming. The Object can be displayed in the view using Interpolation with *json* Pipe: `{{employeeForm.value | json}}`. The `ngSubmit` directive is called when the button with `type="submit"` is clicked and passes the whole Template Reference Variable to the `saveEmployee()` Method.
 
 *component.html*
@@ -748,10 +748,10 @@ This is an example for a Template Driven Form. It uses the `ngModel` directive f
 
 
 
-#####The ngSubmit directive 
+##### The ngSubmit directive 
 ... submits the form when we hit the enter key or when we click the Submit button. When the form is submitted, the *saveEmployee()* method is called and we are passing it the employeeForm. We do not have this method yet. We will create it in the component class in just a bit.
 
-####[Model Driven Forms (Reactive Forms)](https://angular.io/guide/reactive-forms)
+#### [Model Driven Forms (Reactive Forms)](https://angular.io/guide/reactive-forms)
 
 
 
@@ -761,7 +761,7 @@ This is an example for a Template Driven Form. It uses the `ngModel` directive f
 
 Angular disables the browser native validation on forms by default. Since the validation messages appear different in every browser, it is better to use custom validation. 
 
-####Reactivate native validation
+#### Reactivate native validation
 
 Use the ngNativeValidate directive in the opening tag of the form to re-enable browser built-in validation. The text field in the example is set to required using the HTML5 *required* attribute. If the text field is left empty and the Submit button is clicked, the form will not be submitted and the browser will display its built-in validation attribute. Else, the form will be submitted and the code in the *onSave()* method is executed, which logs the value of the text field to the console. For more information on HTML5 validation attributes, click [this Link](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Form_validation).
 
@@ -924,21 +924,21 @@ To pass data into a Child Component, declare a Variable of the
 
 ## Control the UI from code => Structural Directives (TBD)
 
-###ngIf	*(If Statement)*
+### ngIf	*(If Statement)*
 
 
 
-###ngFor *(Foreach Statement)*
+### ngFor *(Foreach Statement)*
 
 
 
-###ngSwitch *(Switch Case Statement)*
+### ngSwitch *(Switch Case Statement)*
 
 
 
 ## Angular Specific HTML Elements
 
-###ng-content	*(Allow other elements inside this element)*
+### ng-content	*(Allow other elements inside this element)*
 
 ngcontent + ngif
 
@@ -949,7 +949,7 @@ The TypeScript codebehind files in Angular are supposed to control the view *onl
 
 There are a few steps to take:
 
-####Define the Service
+#### Define the Service
 - Use Angular CLI to create a new service
 - Add the logic to the service. In this example, the service will only be used to return a static array of customer objects
 
@@ -965,7 +965,7 @@ There are a few steps to take:
     }
 
 
-####Register the Service with the Injector
+#### Register the Service with the Injector
 The place where the Service is registered for Dependency Injection matters, because Angular uses a hierarchical DI system. The Components are organized in a tree structure, and registering a Service in a Component (or Module) means that it will only be available in its child Components. So the best solution is to register the service is the AppModule, which is the root of every Angular App.
 
 So Import the Service and add it to the 'providers' Array
@@ -982,7 +982,7 @@ So Import the Service and add it to the 'providers' Array
 	  bootstrap: [...]
 	})
 
-####Declare the Service as a Dependency in the classes where it is needed
+#### Declare the Service as a Dependency in the classes where it is needed
 Now add the Dependency in the Components that need the Service using Constructor Injection. Be sure to declare the Variable with a leading underscore (like  _*customerService* ), as this is a naming convention for variables injected with Dependency Injection. The Service can now be used to get the Customer Array. Again, this is a basic example with hardcoded data, in reality the Service would probably make an HTTP call to get some data or read the data from a database.
 
 *customers.component.ts*
@@ -1031,7 +1031,6 @@ The Browser can do the Request for the Angular Application, thus eliminating the
 		}
 
 
-
 This connection can now be used in a service like:
 
     this.baseUrl = baseUrl ? baseUrl : '/api';		<--- access the 'api' connection
@@ -1042,16 +1041,15 @@ All requests to /api will be made to the URL specified as "target" and will
 
 Run `ng serve --proxy-config proxy.conf.json` to launch the app and use the proxy route specified in proxy.conf.json
 
-
-###GET
+### GET
 
 There are several ways to parse received Objects into [POCOs](https://en.wikipedia.org/wiki/Plain_old_CLR_object)
 
-###Standard Method: Observables
+### Standard Method: Observables
 
 Angulars standard method for processing HTTP Responses is turning them into Observables (or Arrays of Observables). An Observable is a sequence of items that arrive asynchronously over time (when the HTTP call returns and HTTP response).
 
-#####Send HTTP Request
+##### Send HTTP Request
 To send an HTTP Request, the Service needs to use the HttpClientModule. To use it, the Module needs to be added to the imports Array in add.module.ts. This makes it available to the service for Dependency Injection. It does not need to be added to the providers Array like e.g. a Service, the HttpClientModule does that by itself.
 
 *app.module.ts*
@@ -1077,9 +1075,7 @@ Inject the HttpClient into the Constructor of the Service. Depending on the Back
 		this.headers.append('Accept', 'application/json');
 	}
 
-
-
-#####Get Observable from HTTP Response and cast it into an Array of Objects
+##### Get Observable from HTTP Response and cast it into an Array of Objects
 To cast the HTTP Response into an Array of Patient Objects, the Type Patient and an IPatient Interface need to be created first. For the sake of simplicity, the Type and Interface will be declared inside the Service file.
 
 *patient.service.ts*
@@ -1108,7 +1104,7 @@ To cast the HTTP Response into an Array of Patient Objects, the Type Patient and
 
 
 
-#####Subscribe to the Observable from the Components that need the Data
+##### Subscribe to the Observable from the Components that need the Data
 The Component that requires the Data fetched from the HTTP Server can now subscribe to the "getPatients()" Method. The Argument to the Subscribe Method is a Lambda Expression that tells the Subscribe Method to assign its data to the "customers" Array.
 
 
@@ -1124,7 +1120,7 @@ The Component that requires the Data fetched from the HTTP Server can now subscr
 		}
 	}
 
-###"Try Parse Method"
+### "Try Parse Method"
 
 This method allows to parse an incoming object for the desired parameters, assign the values to the POCO if the parameters are found and assign default values to the POCO if the parameters are not found. Can be used in child classes aswell. 
 
@@ -1190,7 +1186,7 @@ The expression used here is evaluated as follows:
 
 *- if the json object does not have a property called "name" then assign "No Name Specified" to this.name*
 
-##POST
+## POST
 
 *When working with an ASP.NET Web API & Entity Framework (like my PatientManagement Project), the Primary Key (in my case "patientId" must be set to 0 for a POST Request to work. The Api Controller will check the Value of the Primary Key and return a 400 Bad Request if the key is NULL!*
 
@@ -1217,11 +1213,11 @@ To save a newly created Object to the Backend, it is not enough to simply send a
 		return this._http.post(this.baseUrl + "patients", body, this.httpOptions);
 	}
 
-##Routing
+## Routing
 
 To navigate between views, Angular provides a Router. To use it, several steps are necessary.
 
-######Please note: This example was copied from a YouTube Tutorial. To copy & paste these examples, your Angular app requires a *customers* component and a *products* component. Otherwise, the code snippets need to be changed according to your actual application.
+###### Please note: This example was copied from a YouTube Tutorial. To copy & paste these examples, your Angular app requires a *customers* component and a *products* component. Otherwise, the code snippets need to be changed according to your actual application.
 
 In app.module.ts, import the RouterModule and Routes Object from @angular/router. Also declare an Array of type Routes that will hold the routes for the application. Now add the routes as shown below in the example for two components "customers" and "products". The last item in the example Array is used to configure what happens if the base URL of the application is called. In this case, the app will reroute the user to the customers route. Then add the Routermodule to the imports Array, passing the appRoutes Object using the forRoot method.
 
