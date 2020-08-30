@@ -1,4 +1,4 @@
-# Angular 5 Tutorial
+# 1. About
 
 I use this document as a reference for Angular development. All code examples are copy & paste-able. Some code Examples work with complex Objects that were Parts of Programs I created or from Tutorials that I watched, so they need to be adapted to your specific use case. Also, I don't bother with removing all the css classes assigned to my HTML elements when I copy & paste my code in here.
 
@@ -10,7 +10,9 @@ I use this document as a reference for Angular development. All code examples ar
 
 [Blog: Angular in Depth](https://blog.angularindepth.com/)
 
-## TO DO
+# 2. To Do
+
+**Find a working Markdown Table of Contents Generator!!!**
 
 How to customize the input date for Datepicker
 
@@ -18,36 +20,36 @@ Add links to the structural directive documentations and other ng directives
 
 Add item from select to Array
 
-## Get the Prerequisites
+# 3. Get the Prerequisites
 
-### Step 1: Get Node Package Manager (npm)
+## 3.1. Get Node Package Manager (npm)
 
-##### Download npm [here](https://www.npmjs.com/get-npm).
+Download npm [here](https://www.npmjs.com/get-npm).
 
-### Step 2: Get Angular
+## 3.2. Get Angular
 
-##### Installing Angular from npm is described [here](https://angular.io/guide/quickstart). This link also leads to the official documentation of Angular.
+Installing Angular from npm is described [here](https://angular.io/guide/setup-local). This link also leads to the official documentation of Angular.
 
-## Angular CLI Commands
+# 4. Angular CLI Commands
 
-#### Configure CLI Output
+## 4.1. Configure CLI Output
 
 Run `set DEBUG=express:*` to enable debug output
 
 Run `set DEBUG=` to disable debug output
 
-#### Generate a new App
+## 4.2. Generate a new App
 
 Run `ng new app-name` to generate a new app in the current folder.
 
 Run `ng serve --proxy-config proxy.conf.json` to launch the app and use the proxy route specified in proxy.conf.json
 
 
-#### Launch the App
+## 4.3. Launch the App
 
 Run `ng serve` to  launch the app.
 
-#### Generate Components
+## 4.4. Generate Components
 
 Run `ng generate component component-name` to generate a new component.
  
@@ -60,7 +62,7 @@ Notes:
 * Components are created in a subdirectory be default - the subdirectory name is the component name. The filenames are <componentname>.component.ts/html/css.
 * Services and Pipes are *not* created/scaffolded in a subdir by default, see below. 
 
-#### Generate Services and Models
+## 4.5. Generate Services and Models
 
 To create a service in a subdirectory do the following:
 
@@ -77,9 +79,9 @@ More examples:
 	ng g s services\user			# create a "UserService" service
 	ng g s services\authentication 	# create a "AuthenticationService" service
 
-## Building Blocks
+# 5. Building Blocks
 
-### Modules
+## 5.1. Modules
 Every Module represents a feature area in the Application
 
 e.g. User Module, Admin Module
@@ -88,7 +90,7 @@ Root Module = app-module
 
 Every Module is made up of one or more Components and Services
 
-#### Components 
+## 5.2. Components 
 Every Component controls a portion of the view - consisting of an HTML template and a TypeScript codebehind file that controls the logic of the view
 
 e.g. Navigation Bar, Sidebar, Main Content
@@ -111,11 +113,11 @@ A Component can be used in different ways, depending on the declaration of the s
 
 `selector: '[app-componentname]'`	will make the component available as an attribute: `<div app-componentname"></div>`
 
-#### Services
+## 5.3. Services
 A Service is a class that contains the business logic of the Application
 
-## CSS
-### Class Binding
+# 6. CSS
+## 6.1. Class Binding
 Single class:
 
     <h1 class="myHeadline">Headline</h1>
@@ -124,7 +126,7 @@ Multiple classes:
 
     <h1 class="myHeadline frontPage anotherClass">Headline</h1>
 
-### Fluent Class Binding
+## 6.2. Fluent Class Binding
 
 
 You can assign the class name to a property and bind the property to an html element using this syntax:
@@ -152,9 +154,9 @@ Class Binding turns regular class assignments into dummy assignments, so only th
 
 In the example above, only myClass will apply
 
-### Conditional Fluent Class Binding
+## 6.3. Conditional Fluent Class Binding
 
-#### Single class
+### 6.3.1. Single class
 
 There is an alternative syntax that binds one class based on a truthy or falsy value. If true, the CSS is applied.
 
@@ -172,7 +174,7 @@ There is an alternative syntax that binds one class based on a truthy or falsy v
     	color: blue;
     }
 
-#### Multiple classes = ngClass Directive
+### 6.3.2. Multiple Classes (ngClass Directive)
 
 To conditionally apply multiple classes, use the ngClass Directive. Assign the booleans in the typescript file to the class declarations.
 
@@ -204,12 +206,12 @@ To conditionally apply multiple classes, use the ngClass Directive. Assign the b
     }
 
 		
-### Style Binding
+## 6.4. Style Binding
 Inline binding to a single style parameter works as follows:
 
     <h2 [style.color]="'orange'">Text</h2>
 
-### Conditional Style Binding
+## 6.5. Conditional Style Binding
 Conditional Style Binding looks like this: if *hasError* is true, then Text is red. Else it is green.
 
 *component.ts*
@@ -220,7 +222,7 @@ Conditional Style Binding looks like this: if *hasError* is true, then Text is r
 
     <h2 [style.color]="hasError ? 'red' : 'green'">Text</h2>
 
-### Fluent Style Binding
+## 6.6. Fluent Style Binding
 If two styles are not enough for the desired application, it is possible to bind an element to a string value that can be changed at runtime.
 
 *component.ts*
@@ -231,11 +233,11 @@ If two styles are not enough for the desired application, it is possible to bind
 
     <h2 [style.color]="highlightColor">Text</h2>
 
-## One Way Data Binding
+# 7. One Way Data Binding
 
-### Data Flow inside a Component: Class => View
+## 7.1. Class to View
 
-#### Interpolation - works only with string values
+### 7.1.1. Interpolation (only works with string values)
 
 Use `{{variable-name}}` to use the value of a variable in the HTML view
 
@@ -265,7 +267,7 @@ Use a variable in the component.ts for that:
 
     {{siteUrl}}
 
-#### Property Binding - can also work with boolean values
+### 7.1.2. Property Binding (can also work with boolean values)
 
 Attributes - Initial Values defined by HTML, read by using `(.getAttribute('value'))`
 
@@ -306,7 +308,7 @@ using a boolean Variable to make the view respond when the Variable value change
     <input bind-disabled="isDisabled" type="text" value="Vishwas">
 
 
-### Data Flow inside a Component: View => Class
+## 7.2. View to Class
 
 To interact with the typescript class from the view, Angular offers Event Binding. Simply add the type of Event like "click" to the Element and assign the name of the function that should be called to it.
 
@@ -362,11 +364,11 @@ Angular can also execute code manually right from the HTML
 	<button (click)="onClick()" type="button">And me afterwards</button>
 
 
-### Pipes
+## 7.3. Pipes
 
 Pipes allow to transform the data before showing it in the view. The data is *only* transformed for the view. The values of the properties in the class do *not* change
 
-#### String Pipes
+### 7.3.1. String Pipes
 
 *component.ts*
 
@@ -401,7 +403,7 @@ display the string in lowercase
 
 	<h2>{{ person | json }}</h2>
 	
-#### Number Pipes
+### 7.3.2. Number Pipes
 
 *component.html*
 
@@ -432,7 +434,7 @@ currency code 'EUR': shows €0.25 (Euro) check the [ISO Currency Code List](htt
 													//  
 	<h2>{{ 0.25 | currency: 'EUR' : code }}</h2>	//  shows the code instead of the currency sign: shows EUR0.25
 
-#### Date & Time Pipes
+### 7.3.3. Date & Time Pipes
 
 *component.ts*
 
@@ -452,9 +454,10 @@ currency code 'EUR': shows €0.25 (Euro) check the [ISO Currency Code List](htt
 	<h2>{{date | date:'longTime'}}</h2>
 
 
-## Two Way Data Binding 
+# 8. Two Way Data Binding 
 
-### Data Flow inside a Component: View <=> Class
+## 8.1. Data Flow between View and Class  
+
 When working with input elements, it is essential that the model (in the class) and the user input (in the view) are always in sync. For this purpose, Angular provides the ngModel directive. 
 
 The basic syntax is a Mix between [Propery Binding] and (Event Binding):
@@ -493,7 +496,7 @@ To use the ngModel directive, we need to import the FormsModule from '@angular/f
     export class AppModule { }
 
 
-### Two Way Binding a Boolean Value to two Radio Buttons
+## 8.2. Two Way Binding a Boolean Value to two Radio Buttons
 
 To bind two Radio Buttons to a Model that has a boolean value, these steps must be taken:
 
@@ -521,15 +524,15 @@ To bind two Radio Buttons to a Model that has a boolean value, these steps must 
 	Insurance = new Insurance();
 
 
-### Two Way Binding String Values to a Dropdown List
+## 8.3. Two Way Binding String Values to a Dropdown List
 
 To bind the String Values selected in a Dropdown to a Model, these steps must be taken:
 
-1.) Give both the label and the select the same `name` attribute, so they are linked. 
+1. Give both the label and the select the same `name` attribute, so they are linked. 
 
-2.) Use the ngModel directive as usual to bind the value of the dropdown to the Property. In this case, it is the `gender` Property of the `Patient` Object.
+2. Use the ngModel directive as usual to bind the value of the dropdown to the Property. In this case, it is the `gender` Property of the `Patient` Object.
 
-3.) The *value* has to be set with square braces (Property Binding) to *"true"* or *"false"*
+3. The *value* has to be set with square braces (Property Binding) to *"true"* or *"false"*
 
 *component.html*
 
@@ -548,23 +551,23 @@ To bind the String Values selected in a Dropdown to a Model, these steps must be
 		"not sure"
 	];
 
-### Two Way Binding DateTime Values to a DatePicker
+## 8.4. Two Way Binding DateTime Values to a DatePicker
 
 It is bad practice to use the browser built-in DatePicker, because the implementation varies from browser to browser in terms of layout and data format. To achieve the same function, look and feel across all browsers, it is recommended to use a custom DatePicker. This example will be using the [Datepicker](https://valor-software.com/ngx-bootstrap/#/datepicker) from [Valor Software's ngx-bootstrap](https://valor-software.com/ngx-bootstrap/#/)
 
 The [Getting Started Guide](https://valor-software.com/ngx-bootstrap/#/getting-started) provides Information about this, except for the part how to install bootstrap 3 / 4.
 
-#### Step 1: Install ngx-bootstrap
+### 8.4.1. Install ngx-bootstrap
 
 	npm install ngx-bootstrap --save
 
-#### Step 2: Install bootstrap 3 or 4
+### 8.4.2. Install bootstrap 3 or 4
 
 	npm install bootstrap@3 --save
 
 	npm install bootstrap@4 --save
 
-#### Step 3.1: Either reference the bootstrap stylesheet in your *.angular-cli.json*
+### 8.4.3. Either reference the bootstrap stylesheet in your *.angular-cli.json*
 Find the *"styles"* section in your *.angular-cli.json* file and add the following line.
 
       "styles": [
@@ -573,7 +576,7 @@ Find the *"styles"* section in your *.angular-cli.json* file and add the followi
         ...
       ],
 
-#### Step 3.2: Or reference the bootstrap stylesheet in your *index.html*
+### 8.4.4. Or reference the bootstrap stylesheet in your *index.html*
 Add one of these lines to the index.html of your application, depending on which version of bootstrap you installed.
 
 *index.html*
@@ -582,7 +585,7 @@ Add one of these lines to the index.html of your application, depending on which
 	
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 
-#### Step 4: Import the desired component into the *app.modules.ts* and add it to the *imports* Array
+### 8.4.5. Import the desired component into the *app.modules.ts* and add it to the *imports* Array
 In this example, we import the Datepicker. The [Datepicker Documentation Page](https://valor-software.com/ngx-bootstrap/#/datepicker) contains the import commands that have to be included.
 
 *app.module.ts*
@@ -598,7 +601,7 @@ In this example, we import the Datepicker. The [Datepicker Documentation Page](h
 	})
 	export class AppModule(){}
 
-#### Step 5: Reference the Datepicker stylesheet in *.angular-cli.json*
+### 8.4.6. Reference the Datepicker stylesheet in *.angular-cli.json*
 Find the *"styles"* section in your *.angular-cli.json* file and add another line that points to the component you want to use.
 
       "styles": [
@@ -607,7 +610,7 @@ Find the *"styles"* section in your *.angular-cli.json* file and add another lin
         ...
       ],
 
-#### Step 6: Declare a Datepicker in your Application
+### 8.4.7. Declare a Datepicker in your Application
 Declare an *input* and set its type to "text" (NOT "date"!) and add the *bsDatepicker* directive to the element as shown in the example below. Then just use the *[(ngModel)]* directive to bind the Datepicker to the Model's Date value (e.g. Birthday). 
 
 *component.html*
@@ -622,7 +625,7 @@ Declare an *input* and set its type to "text" (NOT "date"!) and add the *bsDatep
 	public selectedPatient : Patient = new Patient();
 
 
-#### Step 7: Customize the Component
+### 8.4.8. Customize the Component
 Check the [Theme Reference](https://valor-software.com/ngx-bootstrap/#/datepicker#themes) of the Component to find a proper Theme. Then Import the Config Object into the Component that uses the Datepicker. Then create a Property to hold the values. Check the definition in *bs-datepicker.config.d.ts* (right-click => Go to Definition in VS Code) to find all the Properties it has. Use the Object.assign() Method to assign the desired configuration to the Element. Then Property Bind the *datePickerConfig* Object to the bsConfig Property of the Datepicker in the HTML Tag.
 
 *component.ts*
@@ -643,7 +646,7 @@ Check the [Theme Reference](https://valor-software.com/ngx-bootstrap/#/datepicke
 	</div>		
 
 
-#### Step X: Customize the Input Date Format [TBD]
+### 8.4.9. Customize the Input Date Format (TBD)
 I used the ngModel directive to bind the Datepicker to the Birthday Property of my Model. 
 Now my Forms Model accepts the Value from the Datepicker just fine (View => Class). The Format looks like this: 
 
@@ -656,7 +659,7 @@ But when I want the Datepicker to be set from the Property of the Model (Class =
 This is of course not the desired behavior. The Datepicker be able to assign a value to the Patient Object, but it should also be able to show the initial value when the Patient is loaded and his / her Birthday has a different Format.
 
 
-### Two Way Binding a Complex Object from a Dropdown to another Object
+## 8.5. Two Way Binding a Complex Object from a Dropdown to another Object
 
 The Data Types in this example are like a simple Web Shop would use them. An *Item* Object is bound to a *Customer* Object. To work with the *Item* Object-Oriented, it is insufficient to bind the ID of the Item (if it even has one...) or a string representation. The *Customer* has a Property e.g. MyItem, which is of Type Item, so the expected behavior is to bind an Item-Object to that Property. And this is the Syntax:
 
@@ -671,11 +674,11 @@ The Data Types in this example are like a simple Web Shop would use them. An *It
 
 The [ngValue] directive is the key here. It is bound directly to the "item" from the **ngFor* directive, so it points to the object itself. Using [value]="item" isn't going to do the trick, it is just going to bind a string to the Property *selectedCustomer.singleItem*.
 
-### Adding an Item to an Array from the View by selecting it from a Dropdown
+## 8.6. Adding an Item to an Array from the View by selecting it from a Dropdown
 
 
 
-### Removing an Item from an Array from the View by clicking a Table Row
+## 8.7. Removing an Item from an Array from the View by clicking a Table Row
 
 Pass the index of the list view to an "onDelete" Method and delete the Object from the Array from there.
 
@@ -696,18 +699,18 @@ Pass the index of the list view to an "onDelete" Method and delete the Object fr
 		this.patients.splice(i, 1);
 	}
 
-## Forms in Angular
+# 9. Forms in Angular
 
 Most applications require some type of Form elements that the user can interact with to enter new data or change existing data. There are two different ways to create Forms in Angular. Template Driven Forms, which are used for simple Forms or Model Driven Forms (Reactive Forms), which allow for more complex Forms that use cross-field validation etc.
 
-#### [Template Driven Forms](https://angular.io/guide/forms)
+## 9.1. [Template Driven Forms](https://angular.io/guide/forms)
 
 
-##### Template Reference Variable
+### 9.1.1. Template Reference Variable
 
 `#employeeForm` is called the Template Reference Variable. Notice `ngForm` was assigned as the value for the Template Reference Variable `employeeForm`. So `employeeForm` variable holds a reference to the form. When Angular sees a form tag, it automatically attaches the `ngForm` directive to it. The `ngForm` directive supplements the form element with additional features. It holds all the form controls that we create with `ngModel` directive and name attribute, and monitors their properties like value, dirty, touched, valid etc. The form also has all these properties.
 
-##### Angular Form Directives
+### 9.1.2. Angular Form Directives
 This is an example for a Template Driven Form. It uses the `ngModel` directive for Two-Way Databinding, although there is not underlying Object in the TypeScript class yet. The `ngForm` Directive also creates a dummy Object to hold the values in this Form, so this Directive is predestined to use with Object Oriented Programming. The Object can be displayed in the view using Interpolation with *json* Pipe: `{{employeeForm.value | json}}`. The `ngSubmit` directive is called when the button with `type="submit"` is clicked and passes the whole Template Reference Variable to the `saveEmployee()` Method.
 
 *component.html*
@@ -748,20 +751,20 @@ This is an example for a Template Driven Form. It uses the `ngModel` directive f
 
 
 
-##### The ngSubmit directive 
+### 9.1.3. The ngSubmit directive 
 ... submits the form when we hit the enter key or when we click the Submit button. When the form is submitted, the *saveEmployee()* method is called and we are passing it the employeeForm. We do not have this method yet. We will create it in the component class in just a bit.
 
-#### [Model Driven Forms (Reactive Forms)](https://angular.io/guide/reactive-forms)
+## 9.2. [Model Driven Forms (Reactive Forms)](https://angular.io/guide/reactive-forms)
 
 
 
 
 
-### Form Validation
+### 9.2.1. Form Validation
 
 Angular disables the browser native validation on forms by default. Since the validation messages appear different in every browser, it is better to use custom validation. 
 
-#### Reactivate native validation
+### 9.2.2. Reactivate native validation
 
 Use the ngNativeValidate directive in the opening tag of the form to re-enable browser built-in validation. The text field in the example is set to required using the HTML5 *required* attribute. If the text field is left empty and the Submit button is clicked, the form will not be submitted and the browser will display its built-in validation attribute. Else, the form will be submitted and the code in the *onSave()* method is executed, which logs the value of the text field to the console. For more information on HTML5 validation attributes, click [this Link](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Form_validation).
 
@@ -798,16 +801,16 @@ Use the ngNativeValidate directive in the opening tag of the form to re-enable b
 
     }
 
-### Custom validation
+### 9.2.3. Custom validation
 
 Luckily, when using Two Way Data Binding, Form fields have six Properties that help with handling their State:
 
-##### Pristine: Field has not been changed (it is the same as the Property's initial value)
-##### Dirty: Field *has* been changed (it is different from the Property's initial value)
-##### Valid: The Validation Attributes set to this Form Element have been met by the Content
-##### Invalid: The Validation Attributes set to this Form Element have *NOT* been met by the Content
-##### Touched: This is set to *true* when the User even so much as activates a Control (Putting the Cursor in a Textbox or Tabbing over it is enough)
-##### Untouched: User hasn't even touched the Control
+- Pristine: Field has not been changed (it is the same as the Property's initial value)
+- Dirty: Field *has* been changed (it is different from the Property's initial value)
+- Valid: The Validation Attributes set to this Form Element have been met by the Content
+- Invalid: The Validation Attributes set to this Form Element have *NOT* been met by the Content
+- Touched: This is set to *true* when the User even so much as activates a Control (Putting the Cursor in a Textbox or Tabbing over it is enough)
+- Untouched: User hasn't even touched the Control
 
 The Form itself has these six Properties, too. So it is possible to check if *any* Form Control is *invalid* or has been *touched* etc...
 
@@ -858,9 +861,9 @@ The following HTML can be copy pasted into a Form and used to display the values
           </tr>
         </table>
 
-## Data Flow Between Components
+# 10. Data Flow Between Components
 
-### Data Flow:	Child => Parent
+## 10.1. Child to Parent
 To send data from a child component to its parent component, Angular provides an Output mechanism with the EventEmitter class. The syntax works like this:
 
 Declare an instance of the EventEmitter class and put the Output decorator on it. Be sure to import them both. Have the emitter emit a value in the click event of a button for example.
@@ -898,7 +901,7 @@ Then, in the parent component, declare a variable to hold the value sent by the 
 
     <app-child (outputEventEmitter)="childData=$event"></app-child>
 
-### Data Flow:	Parent => Child
+## 10.2. Parent to Child
 
 To pass data into a Child Component, declare a Variable of the 
 
@@ -915,41 +918,41 @@ To pass data into a Child Component, declare a Variable of the
 
     <app-child [importedParentData]="parentData"></app-child>
 
-### Data Flow between components called by Router outlet
+## 10.3. Data Flow between components called by Router outlet
 
 [Example on Stackblitz](https://stackblitz.com/edit/passing-data-between-components-in-router-outlet-to-outside)
 
 
 
 
-## Control the UI from code => Structural Directives (TBD)
+# 11. Structural Directives (TBD)
 
-### ngIf	*(If Statement)*
-
-
-
-### ngFor *(Foreach Statement)*
+## 11.1. ngIf	*(If Statement)*
 
 
 
-### ngSwitch *(Switch Case Statement)*
+## 11.2. ngFor *(Foreach Statement)*
 
 
 
-## Angular Specific HTML Elements
+## 11.3. ngSwitch *(Switch Case Statement)*
 
-### ng-content	*(Allow other elements inside this element)*
+
+
+# 12. Angular Specific HTML Elements
+
+## 12.1. ng-content	*(Allow other elements inside this element)*
 
 ngcontent + ngif
 
 
-## Services and Dependency Injection
+# 13. Services and Dependency Injection
 
 The TypeScript codebehind files in Angular are supposed to control the view *only*.To implement application logic and share data across components, Angular provides Services which can be injected into the classes with the built-in Dependency Injection.
 
 There are a few steps to take:
 
-#### Define the Service
+## 13.1. Define the Service
 - Use Angular CLI to create a new service
 - Add the logic to the service. In this example, the service will only be used to return a static array of customer objects
 
@@ -965,7 +968,7 @@ There are a few steps to take:
     }
 
 
-#### Register the Service with the Injector
+## 13.2. Register the Service with the Injector
 The place where the Service is registered for Dependency Injection matters, because Angular uses a hierarchical DI system. The Components are organized in a tree structure, and registering a Service in a Component (or Module) means that it will only be available in its child Components. So the best solution is to register the service is the AppModule, which is the root of every Angular App.
 
 So Import the Service and add it to the 'providers' Array
@@ -982,7 +985,7 @@ So Import the Service and add it to the 'providers' Array
 	  bootstrap: [...]
 	})
 
-#### Declare the Service as a Dependency in the classes where it is needed
+## 13.3. Declare the Service as a Dependency in the classes where it is needed
 Now add the Dependency in the Components that need the Service using Constructor Injection. Be sure to declare the Variable with a leading underscore (like  _*customerService* ), as this is a naming convention for variables injected with Dependency Injection. The Service can now be used to get the Customer Array. Again, this is a basic example with hardcoded data, in reality the Service would probably make an HTTP call to get some data or read the data from a database.
 
 *customers.component.ts*
@@ -1000,14 +1003,13 @@ Now add the Dependency in the Components that need the Service using Constructor
 	}
 
 
-## HTTP Requests
+# 14. HTTP Requests
 [Angular-University.io - Guide for Old Http Module, but many things are still relevant](https://blog.angular-university.io/angular-http/)
-
 
 
 The [Same-origin policy](https://en.wikipedia.org/wiki/Same-origin_policy) permits scripts contained in a first web page to access data in a second web page, but only if both web pages have the same origin. An origin is defined as a combination of URI scheme, host name, and port number. This policy prevents a malicious script on one page from obtaining access to sensitive data on another web page through that page's Document Object Model. So an Angular Application making the Request by itself will throw an Error like *"No 'Access-Control-Allow-Origin' header is present on the requested resource."*. There are two ways to handle the situation: [Enabling CORS](https://enable-cors.org/index.html), which requires Client & Server side Configuration, or using a Browser Proxy to make the Request for the Angular App, which requires Client side Configuration only.
 
-### Cross-Origin-Requests: using CORS (TBD)
+## 14.1. Cross-Origin-Requests: using CORS (TBD)
 
 [CORS Client Side](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
 
@@ -1015,7 +1017,7 @@ The [Same-origin policy](https://en.wikipedia.org/wiki/Same-origin_policy) permi
 
 
 
-### Cross-Origin Requests: using Browser Proxy
+## 14.2. Cross-Origin Requests: using Browser Proxy
 
 The Browser can do the Request for the Angular Application, thus eliminating the need to configure the Server for Cross-Origin-Resource-Sharing. This Method only requires the Configuration of the Client. It makes use of a *.json* file to configure the Client.
 
@@ -1041,15 +1043,15 @@ All requests to /api will be made to the URL specified as "target" and will
 
 Run `ng serve --proxy-config proxy.conf.json` to launch the app and use the proxy route specified in proxy.conf.json
 
-### GET
+## 14.3. GET
 
 There are several ways to parse received Objects into [POCOs](https://en.wikipedia.org/wiki/Plain_old_CLR_object)
 
-### Standard Method: Observables
+### 14.3.1. Standard Method: Observables
 
 Angulars standard method for processing HTTP Responses is turning them into Observables (or Arrays of Observables). An Observable is a sequence of items that arrive asynchronously over time (when the HTTP call returns and HTTP response).
 
-##### Send HTTP Request
+#### 14.3.1.1. Send HTTP Request
 To send an HTTP Request, the Service needs to use the HttpClientModule. To use it, the Module needs to be added to the imports Array in add.module.ts. This makes it available to the service for Dependency Injection. It does not need to be added to the providers Array like e.g. a Service, the HttpClientModule does that by itself.
 
 *app.module.ts*
@@ -1075,7 +1077,7 @@ Inject the HttpClient into the Constructor of the Service. Depending on the Back
 		this.headers.append('Accept', 'application/json');
 	}
 
-##### Get Observable from HTTP Response and cast it into an Array of Objects
+#### 14.3.1.2. Get Observable from HTTP Response and cast it into an Array of Objects
 To cast the HTTP Response into an Array of Patient Objects, the Type Patient and an IPatient Interface need to be created first. For the sake of simplicity, the Type and Interface will be declared inside the Service file.
 
 *patient.service.ts*
@@ -1104,7 +1106,7 @@ To cast the HTTP Response into an Array of Patient Objects, the Type Patient and
 
 
 
-##### Subscribe to the Observable from the Components that need the Data
+#### 14.3.1.3. Subscribe to the Observable from the Components that need the Data
 The Component that requires the Data fetched from the HTTP Server can now subscribe to the "getPatients()" Method. The Argument to the Subscribe Method is a Lambda Expression that tells the Subscribe Method to assign its data to the "customers" Array.
 
 
@@ -1120,7 +1122,7 @@ The Component that requires the Data fetched from the HTTP Server can now subscr
 		}
 	}
 
-### "Try Parse Method"
+### 14.3.2. The Try Parse Method
 
 This method allows to parse an incoming object for the desired parameters, assign the values to the POCO if the parameters are found and assign default values to the POCO if the parameters are not found. Can be used in child classes aswell. 
 
@@ -1186,15 +1188,15 @@ The expression used here is evaluated as follows:
 
 *- if the json object does not have a property called "name" then assign "No Name Specified" to this.name*
 
-## POST
+## 14.4. POST
 
 *When working with an ASP.NET Web API & Entity Framework (like my PatientManagement Project), the Primary Key (in my case "patientId" must be set to 0 for a POST Request to work. The Api Controller will check the Value of the Primary Key and return a 400 Bad Request if the key is NULL!*
 
-#####  Preflight the HTTP POST Request (TBD)
+### 14.4.1. Preflight the HTTP POST Request (TBD)
 
 
 
-#####  Subscribe to the POST Observable
+### 14.4.2. Subscribe to the POST Observable
 To save a newly created Object to the Backend, it is not enough to simply send a Patient Object to the PatientService and have the Service make a POST call. The HTTPClient in Angular will only execute that REST Call, if the Angular Application subscribes to the Observable that is returned by the HttpClient.post Method. To execute the call properly: have the Method in the Service that calls the HttpClient.post Method return the result of the HTTP call: `return this._http.post(this.baseUrl + "patients", body, this.httpOptions);`. Then, subscribe to the response (which is an Observable) in the Component Method: `this._patientService.postPatient(this.selectedPatient).subscribe(...);`. It is not necessary to assign the Response to a Variable, the *subscribe* Method can just make a console log for example.
 
 *patient.component.ts*
@@ -1213,11 +1215,11 @@ To save a newly created Object to the Backend, it is not enough to simply send a
 		return this._http.post(this.baseUrl + "patients", body, this.httpOptions);
 	}
 
-## Routing
+# 15. Routing
 
 To navigate between views, Angular provides a Router. To use it, several steps are necessary.
 
-###### Please note: This example was copied from a YouTube Tutorial. To copy & paste these examples, your Angular app requires a *customers* component and a *products* component. Otherwise, the code snippets need to be changed according to your actual application.
+***Please note**: This example was copied from a YouTube Tutorial. To copy & paste these examples, your Angular app requires a **customers** component and a **products** component. Otherwise, the code snippets need to be changed according to your actual application.*
 
 In app.module.ts, import the RouterModule and Routes Object from @angular/router. Also declare an Array of type Routes that will hold the routes for the application. Now add the routes as shown below in the example for two components "customers" and "products". The last item in the example Array is used to configure what happens if the base URL of the application is called. In this case, the app will reroute the user to the customers route. Then add the Routermodule to the imports Array, passing the appRoutes Object using the forRoot method.
 
@@ -1244,7 +1246,7 @@ In app.module.ts, import the RouterModule and Routes Object from @angular/router
 	})
 
 
-### Routing from a Button Click
+## 15.1. Routing from a Button Click
 
 In the app.component.html, create a nav bar that holds some buttons which will call the routes. Configure the routes that shall be called using the `routerLink` directive provided the by the RouterModule. The `<router-outlet></router-outlet>` component specifies where the components that were specified in the `appRoutes` Array will be shown.
 
