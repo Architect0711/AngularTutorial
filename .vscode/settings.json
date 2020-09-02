@@ -1,3 +1,10 @@
 {
-    "markdown-pdf.convertOnSave": true
+    "markdown-pdf.convertOnSave": true,
+    "markdown-toc.depthFrom": 1,
+    "markdown-toc.insertAnchor": false,
+    "markdown-toc.withLinks": true,
+    "markdown-toc.orderedList": false,
+    "markdown-toc.updateOnSave": true,
+    "markdown-toc.anchorMode": "github.com"
+
 }
